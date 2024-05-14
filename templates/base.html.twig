@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Welcome!
+			{% block title %}RecMarket | E-commerce!
 			{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
@@ -26,15 +26,19 @@
 
 
 		{% block stylesheets %}
-			<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 		{% endblock %}
 
 		{% block javascripts %}
-			{{ importmap() }}
 		{% endblock %}
 	</head>
 	<body>
+	{% include("header/index.html.twig") %}
+	
 		{% block body %}{% endblock %}
+
+	{% include("footer/index.html.twig") %}
+
+
 
 		<script src="/assets/js/jquery-3.6.0.min.js"></script>
 		<script src="/assets/js/popper.min.js"></script>
