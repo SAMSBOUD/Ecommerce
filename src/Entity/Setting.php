@@ -64,6 +64,9 @@ class Setting
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $InstagramLink = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $mail = null;
+
     public function __construct(Type $var = null) {
         $this->setCreatedAt(new \DateTimeImmutable()); 
     }
@@ -250,6 +253,18 @@ class Setting
     public function setInstagramLink(?string $InstagramLink): static
     {
         $this->InstagramLink = $InstagramLink;
+
+        return $this;
+    }
+
+    public function getMail(): ?string
+    {
+        return $this->mail;
+    }
+
+    public function setMail(?string $mail): static
+    {
+        $this->mail = $mail;
 
         return $this;
     }

@@ -50,6 +50,7 @@ class ProductCrudController extends AbstractCrudController
                     //To specify image formats: 'accept'=> 'image/x-png,image/gif,image/jpeg,image/jpg',
 
                 ]
+                
             ])
             ->setBasePath("/assets/images/products")
             ->setUploadDir("public/assets/images/products")

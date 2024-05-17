@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 
 class SettingCrudController extends AbstractCrudController
 {
@@ -58,6 +59,8 @@ class SettingCrudController extends AbstractCrudController
             TextField::new('city'),
             TextField::new('code_postal'),
             TextField::new('state'),
+            EmailField::new('mail'),
+
 
 
 
