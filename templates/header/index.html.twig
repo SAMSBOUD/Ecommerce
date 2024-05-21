@@ -140,72 +140,70 @@
 										<li class="mega-menu-col col-lg-3">
 											<ul>
 												<li class="dropdown-header">{{category.name }}
-                                        </li>
-                                                {% for product in category.products %}
-                                                {% if loop.index < 4 %}  
-                                                {# // to limit up to 3 choice. #}
-
-
-												<li>
-													<a class="dropdown-item nav-link nav_item" 
-                                                    href="/product/{{product.slug}}">
-                                                   {{product.name}}
-                                                    </a>
-													
 												</li>
-                                                {% endif %}
-                        						{% endfor %}
+												{% for product in category.products %}
+													{% if loop.index < 4 %}
+														{# // to limit up to 3 choice. #}
+
+
+														<li>
+															<a class="dropdown-item nav-link nav_item" href="/product/{{product.slug}}">
+																{{product.name}}
+															</a>
+
+														</li>
+													{% endif %}
+												{% endfor %}
 											</ul>
 										</li>
 									{% endfor %}
-								
+
 								</ul>
 								<div class="d-lg-flex menu_banners row g-3 px-3">
-                                {% for colection in app.session.get('megaCollections') %}
+									{% for colection in app.session.get('megaCollections') %}
 
-									<div class="col-sm-4">
-										<div class="header-banner"><img alt="menu_banner1" 
-                                        src="/assets/images/collections/{{colection.imageUrl}}">
-											<div class="banne_info">
-												<h6>{{colection.description}} Off</h6>
-												<h4>{{colection.title}}</h4>
-												<a 
-                                                href="{{colection.buttonLink}}">
-                                                {{colection.buttonText}}
-                                                </a>
+										<div class="col-sm-4">
+											<div class="header-banner"><img alt="menu_banner1" src="/assets/images/collections/{{colection.imageUrl}}">
+												<div class="banne_info">
+													<h6>{{colection.description}}
+														Off</h6>
+													<h4>{{colection.title}}</h4>
+													<a href="{{colection.buttonLink}}">
+														{{colection.buttonText}}
+													</a>
+												</div>
 											</div>
 										</div>
-									</div>
-                                    {% endfor %}
+									{% endfor %}
 									{# <div class="col-sm-4">
-										<div class="header-banner"><img alt="menu_banner1" src="/assets/files/megaCollection/8932488097310286313588503554459963159142614451684826970123.png">
-											<div class="banne_info">
-												<h6>15% Off</h6>
-												<h4>Men's Fashion</h4>
-												<a href="http://localhost:4300/">Shop
-													                                                    Now</a>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="header-banner"><img alt="menu_banner1" src="/assets/files/megaCollection/1412527185807988177642011518607795945067036381684827015102.png">
-											<div class="banne_info">
-												<h6>23% Off</h6>
-												<h4>Kids Fashion</h4>
-												<a href="http://localhost:4300/">Shop
-													                                                    Now</a>
-											</div>
-										</div>
-									</div> #}
+																			<div class="header-banner"><img alt="menu_banner1" src="/assets/files/megaCollection/8932488097310286313588503554459963159142614451684826970123.png">
+																				<div class="banne_info">
+																					<h6>15% Off</h6>
+																					<h4>Men's Fashion</h4>
+																					<a href="http://localhost:4300/">Shop
+																						                                                    Now</a>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="col-sm-4">
+																			<div class="header-banner"><img alt="menu_banner1" src="/assets/files/megaCollection/1412527185807988177642011518607795945067036381684827015102.png">
+																				<div class="banne_info">
+																					<h6>23% Off</h6>
+																					<h4>Kids Fashion</h4>
+																					<a href="http://localhost:4300/">Shop
+																						                                                    Now</a>
+																				</div>
+																			</div>
+																		</div> #}
 								</div>
 							</div>
 						</li>
 						<li class="dropdown dropdown-mega-menu">
-							<a routerlink="/shop-list" class="nav-link" ng-reflect-router-link="/shop-list" href="/shop-list">Shop</a>
+							<a routerlink="/shop-list" class="nav-link" href="/">Shop</a>
 						</li>
 						<li>
 							<a routerlink="/contact" class="nav-link nav_item" ng-reflect-router-link="/contact" href="/contact">Contact
-								                                Us</a>
+																                                Us</a>
 						</li>
 					</ul>
 				</div>
@@ -262,7 +260,7 @@
 										<i class="ion-close"></i>
 									</a>
 									<a href="#"><img width="50" height="50" alt="cart_thumb1" src="/assets/files/culottes/culotte_5/36851533762117856286455670026456984987161761684087224828.webp">Culotte
-										                                        en dentelle</a>
+																				                                        en dentelle</a>
 									<span class="cart_quantity">
 										11 x
 										<span class="cart_amount">
@@ -275,7 +273,7 @@
 										<i class="ion-close"></i>
 									</a>
 									<a href="#"><img width="50" height="50" alt="cart_thumb1" src="/assets/files/culottes/culotte_9/116945623386141314594418897879593148825527931684087225230.webp">Culotte
-										                                        unicolore (sans couture)</a>
+																				                                        unicolore (sans couture)</a>
 									<span class="cart_quantity">
 										4 x
 										<span class="cart_amount">
@@ -288,7 +286,7 @@
 										<i class="ion-close"></i>
 									</a>
 									<a href="#"><img width="50" height="50" alt="cart_thumb1" src="/assets/files/culottes/culotte_7/825380258783085919054835307976332473139779511684087224936.webp">Culotte
-										                                        en dentelle</a>
+																				                                        en dentelle</a>
 									<span class="cart_quantity">
 										3 x
 										<span class="cart_amount">
@@ -301,10 +299,10 @@
 										<i class="ion-close"></i>
 									</a>
 									<a href="#"><img width="50" height="50" alt="cart_thumb1" src="/assets/files/970670668041335927385290724653240714148366921684565574162.webp">Bikini
-										                                        unicolore côtelé</a>
+																				                                        unicolore côtelé</a>
 									<span class="cart_quantity">
 										4
-										                                        x
+																				                                        x
 										<span class="cart_amount">
 											<span class="price_symbole">28,24&nbsp;€</span>
 										</span>
@@ -315,7 +313,7 @@
 										<i class="ion-close"></i>
 									</a>
 									<a href="#"><img width="50" height="50" alt="cart_thumb1" src="/assets/files/culottes/culotte_4/87087411019387380483560199609827534551691041684087224752.webp">Culotte
-										                                        unicolore femme (sans couture)</a>
+																				                                        unicolore femme (sans couture)</a>
 									<span class="cart_quantity">
 										2 x
 										<span class="cart_amount">
@@ -328,7 +326,7 @@
 										<i class="ion-close"></i>
 									</a>
 									<a href="#"><img width="50" height="50" alt="cart_thumb1" src="/assets/files/culottes/culotte_2/64690629656996101166169787112869964617448491684087224479.webp">Tanga
-										                                        unicolore</a>
+																				                                        unicolore</a>
 									<span class="cart_quantity">
 										3 x
 										<span class="cart_amount">
@@ -341,7 +339,7 @@
 										<i class="ion-close"></i>
 									</a>
 									<a href="#"><img width="50" height="50" alt="cart_thumb1" src="/assets/files/culottes/culotte_8/10518988473111520886581236853833613928085898971684087225041.webp">Culotte
-										                                        en dentelle</a>
+																				                                        en dentelle</a>
 									<span class="cart_quantity">
 										1 x
 										<span class="cart_amount">
@@ -354,7 +352,7 @@
 										<i class="ion-close"></i>
 									</a>
 									<a href="#"><img width="50" height="50" alt="cart_thumb1" src="/assets/files/culottes/culotte_3/6138170893214881132536005127536132168491807951684087224669.webp">Culotte
-										                                        à blocs de couleurs en dentelle</a>
+																				                                        à blocs de couleurs en dentelle</a>
 									<span class="cart_quantity">
 										3 x
 										<span class="cart_amount">

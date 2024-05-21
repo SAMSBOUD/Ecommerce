@@ -2,11 +2,11 @@
 	<div class="product">
 		<div class="product_img">
 			<a href="/product/{{product.slug}}">
-			<img alt="product_img1" src="/assets/images/products/{{product.imageUrls[0]}}"></a>
+				<img alt="product_img1" src="/assets/images/products/{{product.imageUrls[0]}}"></a>
 			<div class="product_action_box">
 				<ul class="list_none pr_action_btn">
 					<li class="add-to-cart">
-						<a href="#">
+						<a href="/cart/add/{{ product.id }}/1">
 							<i class="icon-basket-loaded"></i>
 							Add To Cart
 						</a>
@@ -36,12 +36,12 @@
 				</a>
 			</h6>
 			<div class="product_price">
-				<span class="price">{{product.soldePrice/100}}</span>
-				<del>{{product.regularPrice/100}}</del>
+				<span class="price">{{(product.soldePrice/100) |format_currency('EUR')}}</span>
+				<del>{{(product.regularPrice/100) |format_currency('EUR')}}</del>
 				<div class="on_sale">
 					<span>{{((product.regularPrice - product.soldePrice)*100/ product.regularPrice) |number_format(0, '.', ',') }}% Off</span>
-			{# gestion des réductions, number_format permet de gerer numbre virgule #}
-            	</div>
+					{# gestion des réductions, number_format permet de gerer numbre virgule #}
+				</div>
 			</div>
 			<div class="rating_wrap">
 				<div class="rating">
@@ -51,12 +51,11 @@
 			</div>
 			<div class="pr_desc">
 				<p>Lorem ipsum dolor sit amet,
-					                                                        consectetur adipiscing elit. Phasellus blandit massa enim.
-					                                                        Nullam id varius nunc id varius nunc.</p>
+										                                                        consectetur adipiscing elit. Phasellus blandit massa enim.
+										                                                        Nullam id varius nunc id varius nunc.</p>
 			</div>
 			<div class="pr_switch_wrap">
-				<div class="product_color_switch">
-					{# <span data-color="#87554B" class="active"></span> #}
+				<div class="product_color_switch">{# <span data-color="#87554B" class="active"></span> #}
 					{# <span data-color="#333333"></span> #}
 					{# <span data-color="#DA323F"></span> #}
 				</div>
