@@ -94,6 +94,37 @@ class HomeController extends AbstractController
     ]);
 
     }
+    
+
+
+
+    #[Route('/product/get/{id}', name: 'app_product_by_id')]
+
+    public function getProductByID(string $id)
+    {
+    $product = $this->repoProduct->findOneBy(['id'=>$id]);
+
+    if(!$product){
+
+        return $this->json(false);
+    }
+
+    return $this->json([
+
+        'id'=>$product->getId(),
+        'name'=>$product->getName(),
+        'imageUrls'=>$product->getImageUrls(),
+        'soldePrice'=>$product->getSoldePrice(),
+        'regularPrice'=>$product->getRegularPrice(),
+
+    ]);
+
+    
+
+    }
+
+
+
 
     #[Route('/error', name: 'app_error')]
 
