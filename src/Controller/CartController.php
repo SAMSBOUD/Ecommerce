@@ -45,9 +45,9 @@ class CartController extends AbstractController
         $this->cartService->addToCart($productId,$count);
         // instead of redirecting to the page when adding products I just retrieve the products in Json. This to avoid to reload the page and ensure a good cust exp
         $cart = $this->cartService->getCartDetails();
-        $cart_json = json_encode($cart); 
+        //  $cart_json = json_encode($cart); 
 
-        return $this->json($cart);
+         return $this->json($cart);
         //  return $this->redirectToRoute("app_cart");
       
     } 

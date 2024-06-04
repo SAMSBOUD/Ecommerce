@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RecMarket | Compare Product !{% endblock %}
+
+{% block body %}
+{% include "page_head/page_head.html.twig" with {'page_name': 'Compare'} %}
+<div class="section">
+	<div class="container">
+        <div class="row">
+            <div class="col-md-12">
+            	<div class="compare_box">
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center compare_table">
+                        <tbody>
+                            <tr class="pr_image">
+                                {# <td class="row_title">Product Image</td> #}
+                              
+                            </tr>
+                            <tr class="pr_title">
+                                {# <td class="row_title">Product Name</td> #}
+                                
+                            </tr>
+                            <tr class="pr_price">
+                                {# <td class="row_title">Price</td> #}
+                              
+                            </tr>
+                            
+                            <tr class="pr_add_to_cart">
+                                {# <td class="row_title">Add To Cart</td> #}
+                               
+                            </tr>
+                           
+                            <tr class="pr_remove">
+                                {# <td class="row_title"></td> #}
+                             
+                               
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END SECTION SHOP -->
+
+{% endblock %}
