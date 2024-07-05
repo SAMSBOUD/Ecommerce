@@ -7,6 +7,7 @@
 			{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="/assets/css/animate.css">
 		<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="/assets/css/all.min.css"/>
@@ -28,8 +29,7 @@
 		{% block stylesheets %}
 		{% endblock %}
 
-		{% block javascripts %}
-		{% endblock %}
+		
 	</head>
 	<body>
 	{% include("header/index.html.twig") %}
@@ -58,10 +58,10 @@
 		<script src="/assets/js/slick.min.js"></script>
 		<script src="/assets/js/jquery.elevatezoom.js"></script>
 		<script src="/assets/js/scripts.js"></script>
-		<script type="module" src="/assets/js/cart.js"></script>
-		<script type="module" src="/assets/js/compare.js"></script>
-	
+		<script type="module" src="/assets/js/main.js"></script>
 
+{% block javascripts %}
+		{% endblock %}
 
 
 	</body>
