@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Jstore | Product Wish list{% endblock %}
+{% block title %}Jstore | {% trans %}Product Wish list{% endtrans %}{% endblock %}
 
 {% block body %}
-{% include "page_head/page_head.html.twig" with {'page_name': 'Wish List'} %}
+{% set translated_page_name = 'Wish List'|trans %}
+{% include "page_head/page_head.html.twig" with {'page_name': translated_page_name} %}
+{#{% include "page_head/page_head.html.twig" with {'page_name': {% trans %}Wish List{% endtrans %}} %}#}
 <div class="main_content wishlist_content" data-wishlist="{{wishlist_json}}">
     <div class="section">
         <div class="container">

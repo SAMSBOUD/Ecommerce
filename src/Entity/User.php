@@ -9,7 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use App\Entity\CodeValidation;
+use App\Entity\BlocageUser;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -47,8 +50,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Address::class)]
+    private Collection $addresses;
+
+    #[ORM\Column]
+    private ?bool $isDoubleFactor = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CodeValidation::class)]
+    private $codeValidations;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: BlocageUser::class)]
+    private $blocages;
+
     public function __construct(Type $var = null){
         $this->setCreatedAt(new \DateTimeImmutable());
+        $this->addresses = new ArrayCollection();
+        $this->codeValidations = new ArrayCollection();
+        $this->blocages = new ArrayCollection();
+        $this->isDoubleFactor = false;
     }
 
 
@@ -181,4 +200,115 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+     /**
+     * @return Collection<int, Address>
+     */
+    public function getAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
+    public function addAddress(Address $address): static
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
+            $address->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddress(Address $address): static
+    {
+        if ($this->addresses->removeElement($address)) {
+            // set the owning side to null (unless already changed)
+            if ($address->getUser() === $this) {
+                $address->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function  __toString(){
+        return $this->full_name;
+    }
+
+    public function isIsDoubleFactor(): ?bool
+    {
+        return $this->isDoubleFactor;
+    }
+
+    public function setIsDoubleFactor(bool $isDoubleFactor): static
+    {
+        $this->isDoubleFactor = $isDoubleFactor;
+
+        return $this;
+    }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    /**
+     * @return Collection<int, CodeValidation>
+     */
+    public function getCodeValidations(): Collection
+    {
+        return $this->codeValidations;
+    }
+
+    public function addCodeValidation(CodeValidation $codeValidation): static
+    {
+        if (!$this->codeValidations->contains($codeValidation)) {
+            $this->codeValidations->add($codeValidation);
+            $codeValidation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCodeValidation(CodeValidation $codeValidation): static
+    {
+        if ($this->codeValidations->removeElement($codeValidation)) {
+            // set the owning side to null (unless already changed)
+            if ($codeValidation->getUser() === $this) {
+                $codeValidation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BlocageUser>
+     */
+    public function getBlocages(): Collection
+    {
+        return $this->blocages;
+    }
+
+    public function addBlocage(BlocageUser $blocage): static
+    {
+        if (!$this->blocages->contains($blocage)) {
+            $this->blocages->add($blocage);
+            $blocage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlocage(BlocageUser $blocage): static
+    {
+        if ($this->blocages->removeElement($blocage)) {
+            // set the owning side to null (unless already changed)
+            if ($blocage->getUser() === $this) {
+                $blocage->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

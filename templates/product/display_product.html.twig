@@ -1,19 +1,22 @@
 <div class="col-lg-3 col-md-4 col-6">
     <div class="product">
         <div class="product_img">
-            <a href="/product/{{product.slug}}">
-                <img alt="product_img1" src="/assets/images/products/{{ product.imageUrls[0] }}">
+            {# /RecMarket/public/index.php/product/{{product.slug}} #}
+            <a href="{{ path('app_product_by_slug',{'slug':product.slug}) }}">
+                <img alt="product_img1" src="assets/images/products/{{ product.imageUrls[0]}}">
             </a>
             <div class="product_action_box">
                 <ul class="list_none pr_action_btn">
                     <li>
-                        <a href="/cart/add/{{product.id}}/1" class="add-to-cart">
+                        {# /RecMarket/public/index.php/cart/add/{{product.id}}/1 #}
+                        <a href="{{ path('app_cart_add',{'productId':product.id,'count':1}) }}" class="add-to-cart">
                             <i class="icon-basket-loaded"></i>
-                            Add To Cart
+                            {%trans%}Add To Cart{%endtrans%}
                         </a>
                     </li>
                     <li>
-                        <a href="/compare/add/{{product.id}}" class="add-to-compare">
+                        {# /RecMarket/public/index.php/compare/add/{{product.id}} #}
+                        <a href="{{ path('app_add_to_compare',{'productId':product.id}) }}" class="add-to-compare">
                             <i class="icon-shuffle"></i>
                         </a>
                     </li>
@@ -23,7 +26,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/wishlist/add/{{ product.id }}"
+                        {# /RecMarket/public/index.php/wishlist/add/{{ product.id }} #}
+                        <a href="{{ path('app_add_to_wishlist',{'productId':product.id}) }}"
                         class="add-to-wishlist"
                         >
                             <i class="icon-heart"></i>
@@ -34,7 +38,8 @@
         </div>
         <div class="product_info">
             <h6 class="product_title">
-                <a href="/product/{{product.slug}}">
+                {# /RecMarket/public/index.php/product/{{product.slug}} #}
+                <a href="{{ path('app_product_by_slug',{'slug':product.slug}) }}">
                     {{ product.name}}
                 </a>
             </h6>

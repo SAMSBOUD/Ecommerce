@@ -1,0 +1,691 @@
+{% extends 'default.html.twig' %}
+
+{% block title %}RecMarcket | {%trans%}Checkout page{%endtrans%}{% endblock %}
+
+{% block stylesheets %}
+<script src="https://www.paypal.com/sdk/js?client-id={{paypal_public_Key}}&currency=EUR"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{{ asset('assets/css/stripe.css') }}">
+<script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+{% block body %}
+<div class="main_content" 
+data-cart="{{cart_json}}" 
+data-stripe_public_Key="{{stripe_public_Key}}"
+data-paypal_public_Key="{{paypal_public_Key}}"
+data-orderid="{{orderId}}"
+>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <!-- <div  class="col-lg-6">
+                    <div  class="toggle_info"><span ><i
+                                 class="fas fa-user"></i>Returning customer? <a
+                                 href="#loginform" data-bs-toggle="collapse"
+                                aria-expanded="false" class="collapsed">Click here to login</a></span></div>
+                    <div  id="loginform" class="panel-collapse collapse login_form">
+                        <div  class="panel-body">
+                            <p >If you have shopped with us before, please enter your
+                                details below. If you are a new customer, please proceed to the Billing &amp;
+                                Shipping section.</p>
+                            <form  novalidate="" method="post"
+                                class="ng-untouched ng-pristine ng-valid">
+                                <div  class="form-group mb-3"><input
+                                         type="text" required="" name="email"
+                                        placeholder="Username Or Email" class="form-control"></div>
+                                <div  class="form-group mb-3"><input
+                                         required="" type="password" name="password"
+                                        placeholder="Password" class="form-control"></div>
+                                <div  class="login_footer form-group mb-3">
+                                    <div  class="chek-form">
+                                        <div  class="custome-checkbox"><input
+                                                 type="checkbox" name="checkbox" id="remember"
+                                                value="" class="form-check-input"><label 
+                                                for="remember" class="form-check-label"><span
+                                                    >Remember
+                                                    me</span></label></div>
+                                    </div>
+                                </div>
+                                <div  class="form-group mb-3"><button
+                                         type="submit" name="login"
+                                        class="btn btn-fill-out btn-block">Log in</button></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div  class="col-lg-6">
+                    <div  class="toggle_info"><span ><i
+                                 class="fas fa-tag"></i>Have a coupon? <a
+                                 href="#coupon" data-bs-toggle="collapse"
+                                aria-expanded="false" class="collapsed">Click here to enter your code</a></span>
+                    </div>
+                    <div  id="coupon" class="panel-collapse collapse coupon_form">
+                        <div  class="panel-body">
+                            <p >If you have a coupon code, please apply it below.</p>
+                            <div  class="coupon field_form input-group"><input
+                                     type="text" value="" placeholder="Enter Coupon Code.."
+                                    class="form-control">
+                                <div  class="input-group-append"><button
+                                         type="submit" class="btn btn-fill-out btn-sm">Apply
+                                        Coupon</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="row">
+                <!-- <div  class="col-12">
+                    <div  class="medium_divider"></div>
+                    <div  class="divider center_icon"><i 
+                            class="linearicons-credit-card"></i></div>
+                    <div  class="medium_divider"></div>
+                </div> -->
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="heading_s1">
+                        <h4>{%trans%}Billing Address{%endtrans%}</h4>
+                        <select name="billing_address" class="form-control">
+                            <option value="">--- {%trans%}Choose billing address{%endtrans%} --- </option>
+                            {%for address in addresses%}
+                            <option>
+                                {{ address.clientName }}
+                                ( {{ address.street }}
+                                {{ address.codePostal }}
+                                {{ address.city }}
+                                {{ address.state }})
+
+                            </option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                    <div class="heading_s1">
+                        <h4>Shipping Address</h4>
+                        <select name="shipping_address" class="form-control">
+                            <option value="">--- {%trans%}Choose billing address{%endtrans%} --- </option>
+                            {%for address in addresses%}
+                            <option>
+                                {{ address.clientName }}
+                                ( {{ address.street }}
+                                {{ address.codePostal }}
+                                {{ address.city }}
+                                {{ address.state }})
+
+                            </option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                    <div class="heading_s1">
+                        <h4>{%trans%}Comments{%endtrans%}</h4>
+                        <textarea class="form-control" name="Comments" id="" cols="30" rows="7"></textarea>
+                    </div>
+
+
+                </div>
+                <div class="col-md-6">
+                    <div class="order_review">
+                        <div class="heading_s1">
+                            <h4>{%trans%}Your Orders{%endtrans%} </h4>
+                        </div>
+                        <div class="table-responsive order_table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>{%trans%}Product{%endtrans%}</th>
+                                        <th>{%trans%}Total{%endtrans%}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in cart.items %}
+                                    <tr>
+                                        <td>
+                                        
+                                            <img src="{{ asset('assets/images/products//'~item.product.imageUrls[0]) }}" width="30"
+                                                height="30" alt="">
+                                            {{ item.product.name }}
+                                            <span class="product-qty"> {{item.quantity}}</span>
+                                            <span class="product-price">x {{(item.product.soldePrice/100)
+                                                |format_currency('EUR')}}</span>
+                                        </td>
+                                        <td>
+                                            {{(item.product.soldePrice*item.quantity/100) |format_currency('EUR')}}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>SubTotal HT</th>
+                                        <td class="product-subtotal">{{(cart.sub_total_ht/100) |format_currency('EUR')}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Taxe</th>
+                                        <td class="product-subtotal">{{(cart.taxe/100) |format_currency('EUR')}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Shipping</th>
+                                        <td>{{(cart.carrier.price /100) |format_currency('EUR')}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total TTC </th>
+                                        <td class="product-subtotal">{{ (cart.sub_total_with_carrier/100)
+                                            |format_currency('EUR') }}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="payment_method">
+
+                        </div>
+
+                        <div class="payment-button d-none">
+                            <a href="#" class="btn btn-fill-out btn-block" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop">
+                                Pay now ({{ (cart.sub_total_with_carrier/100) |format_currency('EUR') }})
+                            </a>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- <h5 class="modal-title">Modal title</h5> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+            <div class="modal-body">
+                <div class="payment-methods d-flex gap-2 justify-content-center align-items-center">
+                    Stripe 
+                    <i class="fa-solid fa-toggle-off"></i>
+                    Paypal
+                </div>
+                <div id="stripe-method">
+                    <form id="payment-form">
+                        <div id="link-authentication-element">
+                            <!--Stripe.js injects the Link Authentication Element-->
+                        </div>
+                        <div id="payment-element">
+                            <!--Stripe.js injects the Payment Element-->
+                        </div>
+                        <button id="submit">
+                            <div class="spinner hidden" id="spinner"></div>
+                            <span id="button-text">Pay now</span>
+                        </button>
+                        <div id="payment-message" class="hidden"></div>
+                    </form>
+                </div>
+                <div id="paypal-method" class="d-none">
+                    <div id="paypal-button-container"></div>
+                    <p id="result-message"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
+
+    {% block javascripts %}
+    <script>
+        const paymentMethods = document.querySelector(".payment-methods i")
+        const paypalMethodComponent = document.querySelector("#paypal-method")
+        const stripeMethodComponent = document.querySelector("#stripe-method")
+        //const BASE_URL = "{{ app.request.baseUrl }}";
+        let stripeMethod = true
+        let paypalMethod = false
+
+        const main_content = document.querySelector(".main_content")
+        const cart = JSON.parse(main_content?.dataset?.cart || [])
+     
+        const stripe_public_key = main_content?.dataset?.stripe_public_key || ""
+        const orderId = main_content?.dataset?.orderid || ""
+        let billing_address = ""
+        let shipping_address = ""
+        let comment = ""
+        let displayPayBtn = false
+
+        const billing_address_select = document.querySelector('select[name="billing_address"]')
+        const shipping_address_select = document.querySelector('select[name="shipping_address"]')
+        const comments_textarea = document.querySelector('textarea')
+        const payBtn = document.querySelector('.payment-button')
+
+        const updateButton = () => {
+            displayPayBtn = (!!billing_address) && (!!shipping_address)
+            displayPayBtn ? payBtn.classList.remove("d-none") : payBtn.classList.add("d-none")
+        }
+
+        paymentMethods.onclick = () =>{
+            stripeMethod = !stripeMethod
+            paypalMethod = !paypalMethod
+            if(stripeMethod){
+                paymentMethods.className = "fa-solid fa-toggle-off"
+                stripeMethodComponent.classList.remove("d-none")
+                paypalMethodComponent.classList.add("d-none")
+            }else{
+                paymentMethods.className = "fa-solid fa-toggle-on"
+                stripeMethodComponent.classList.add("d-none")
+                paypalMethodComponent.classList.remove("d-none")
+
+            }
+        }
+
+        
+
+        billing_address_select.onchange = (event) => {
+            billing_address = event.target.value
+            updateButton()
+        }
+        shipping_address_select.onchange = (event) => {
+            shipping_address = event.target.value
+            updateButton()
+        }
+        comments_textarea.onchange = (event) => {
+            comment = event.target.value
+            updateButton()
+        }
+
+        payBtn.onclick = async () =>{
+            const response = await fetch(BASE_URL+"/api/order", {
+                method: "POST",
+                body : JSON.stringify({billing_address,shipping_address, orderId})
+            })
+            const result = await response.json()
+            console.log({result});
+        }
+
+
+        // STRIPE COMPONENT
+        
+
+        console.log({orderId});
+       
+        // This is your test publishable API key.
+        const stripe = Stripe(stripe_public_key);
+
+        // The items the customer wants to buy
+        const items = cart.items;
+
+       
+
+        let elements;
+
+        initialize();
+        checkStatus();
+
+        document
+            .querySelector("#payment-form")
+            .addEventListener("submit", handleSubmit);
+
+        let emailAddress = 'testesamirboudekhan@hotmail.com';
+        // Fetches a payment intent and captures the client secret
+        async function initialize() {
+
+            const { clientSecret } = await fetch(BASE_URL+"/api/stripe/payment-intent/"+orderId, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({  }),
+            }).then((r) => r.json());
+            elements = stripe.elements({ clientSecret });
+
+            const linkAuthenticationElement = elements.create("linkAuthentication");
+            linkAuthenticationElement.mount("#link-authentication-element");
+
+            const paymentElementOptions = {
+                layout: "tabs",
+            };
+
+            const paymentElement = elements.create("payment", paymentElementOptions);
+            paymentElement.mount("#payment-element");
+            //console.log(paymentElement);
+        }
+        console.log(elements,BASE_URL.length);
+        async function handleSubmit(e) {
+            e.preventDefault();
+            let rutun_url = "";
+            if(BASE_URL.length>0){
+               rutun_url = window.location.origin+BASE_URL+"/stripe/payment/success"
+            }else{
+               rutun_url = window.location.origin+"/stripe/payment/success"
+            }
+            setLoading(true);
+            console.log(elements,BASE_URL.length);
+            const { error } = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    // Make sure to change this to your payment completion page
+                    //return_url: window.location.origin+"/stripe/payment/success",
+                    ///return_url: BASE_URL+"/stripe/payment/success",
+                    
+                    return_url:rutun_url,
+                    /// return_url: "http://localhost/RecMarket/public/stripe/payment/success",
+                    receipt_email: emailAddress,
+                },
+            });
+            console.log(error,error.type)
+            // This point will only be reached if there is an immediate error when
+            // confirming the payment. Otherwise, your customer will be redirected to
+            // your `return_url`. For some payment methods like iDEAL, your customer will
+            // be redirected to an intermediate site first to authorize the payment, then
+            // redirected to the `return_url`.
+            if (error.type === "card_error" || error.type === "validation_error") {
+                
+                showMessage(error.message);
+            } else {
+                showMessage("An unexpected error occurred.");
+            }
+
+            setLoading(false);
+        }
+
+        // Fetches the payment intent status after payment submission
+        async function checkStatus() {
+            const clientSecret = new URLSearchParams(window.location.search).get(
+                "payment_intent_client_secret"
+            );
+
+            if (!clientSecret) {
+                return;
+            }
+
+            const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+
+            switch (paymentIntent.status) {
+                case "succeeded":
+                    showMessage("Payment succeeded!");
+                    break;
+                case "processing":
+                    showMessage("Your payment is processing.");
+                    break;
+                case "requires_payment_method":
+                    showMessage("Your payment was not successful, please try again.");
+                    break;
+                default:
+                    showMessage("Something went wrong.");
+                    break;
+            }
+        }
+
+        // ------- UI helpers -------
+
+        function showMessage(messageText) {
+            const messageContainer = document.querySelector("#payment-message");
+
+            messageContainer.classList.remove("hidden");
+            messageContainer.textContent = messageText;
+
+            setTimeout(function () {
+                messageContainer.classList.add("hidden");
+                messageContainer.textContent = "";
+            }, 4000);
+        }
+
+        // Show a spinner on payment submission
+        function setLoading(isLoading) {
+            if (isLoading) {
+                // Disable the button and show a spinner
+                document.querySelector("#submit").disabled = true;
+                document.querySelector("#spinner").classList.remove("hidden");
+                document.querySelector("#button-text").classList.add("hidden");
+            } else {
+                document.querySelector("#submit").disabled = false;
+                document.querySelector("#spinner").classList.add("hidden");
+                document.querySelector("#button-text").classList.remove("hidden");
+            }
+        }
+
+
+
+    </script>
+    <script>
+        // paypal
+        window.paypal
+                    .Buttons({
+                        async createOrder() {
+                        try {
+                            const response = await fetch(BASE_URL+"/api/paypal/orders", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            // use the "body" param to optionally pass additional order information
+                            // like product ids and quantities
+                            body: JSON.stringify({
+                            orderId,
+                            }),
+                            });
+
+                            const orderData = await response.json();
+
+                            if (orderData.id) {
+                            return orderData.id;
+                            } else {
+                            const errorDetail = orderData?.details?.[0];
+                            const errorMessage = errorDetail
+                                ?`${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
+                                : JSON.stringify(orderData);
+
+                            throw new Error(errorMessage);
+                            }
+                        } catch (error) {
+                            console.error(error);
+                            resultMessage(`Could not initiate PayPal Checkout...<br><br>${error}`);
+                        }
+                        },
+                        async onApprove(data, actions) {
+                        try {
+                            const response = await fetch(`${BASE_URL}/api/orders/${data.orderID}/capture`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            });
+
+                            const orderData = await response.json();
+
+                            // Three cases to handle:
+                            //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                            //   (2) Other non-recoverable errors -> Show a failure message
+                            //   (3) Successful transaction -> Show confirmation or thank you message
+
+                            const errorDetail = orderData?.details?.[0];
+
+                            if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
+                            // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                            // recoverable state, per https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
+                            return actions.restart();
+                            } else if (errorDetail) {
+                            // (2) Other non-recoverable errors -> Show a failure message
+                            throw new Error(`${errorDetail.description} (${orderData.debug_id})`);
+                            } else if (!orderData.purchase_units) {
+                            throw new Error(JSON.stringify(orderData));
+                            } else {
+                            // (3) Successful transaction -> Show confirmation or thank you message
+                            // Or go to another URL:  actions.redirect('thank_you.html');
+                            const transaction =
+                                orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
+                                orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
+                            window.location.href = BASE_URL+"/paypal/payment/success"
+                            resultMessage(
+                                `Transaction ${transaction.status}: ${transaction.id}<br><br>See console for all available details`,
+                            );
+                            console.log(
+                                "Capture result",
+                                orderData,
+                                JSON.stringify(orderData, null, 2),
+                            );
+                            }
+                        } catch (error) {
+                            console.error(error);
+                            resultMessage(
+                            `Sorry, your transaction could not be processed...<br><br>${error}`,
+                            );
+                        }
+                        },
+                    })
+                    .render("#paypal-button-container");
+
+// Example function to show a result to the user. Your site's UI library can be used instead.
+function resultMessage(message) {
+  const container = document.querySelector("#result-message");
+  container.innerHTML = message;
+}
+    </script>
+    {% endblock %}
+
+
+
+{#{% extends 'base.html.twig' %}
+
+{% block title %}RecMarcket | {%trans%}Checkout page{%endtrans%}
+{% endblock %}
+
+{% block body %}
+
+<div  class="main_content">
+    <div  class="section">
+        <div  class="container">
+            <div  class="row">
+                <!-- <div  class="col-lg-6">
+                    <div  class="toggle_info"><span ><i
+                                 class="fas fa-user"></i>{%trans%}Returning customer?{%endtrans%}
+ <a
+                                 href="#loginform" data-bs-toggle="collapse"
+                                aria-expanded="false" class="collapsed">{%trans%} Click here to login{%endtrans%}
+                               </a></span></div>
+                    <div  id="loginform" class="panel-collapse collapse login_form">
+                        <div  class="panel-body">
+                            <p >{%trans%} If you have shopped with us before, please enter your
+                                details below. If you are a new customer, please proceed to the Billing &amp;
+                                Shipping section.{%endtrans%}
+                            </p>
+                            <form  novalidate="" method="post"
+                                class="ng-untouched ng-pristine ng-valid">
+                                <div  class="form-group mb-3"><input
+                                         type="text" required="" name="email"
+                                        placeholder="Username Or Email" class="form-control"></div>
+                                <div  class="form-group mb-3"><input
+                                         required="" type="password" name="password"
+                                        placeholder="Password" class="form-control"></div>
+                                <div  class="login_footer form-group mb-3">
+                                    <div  class="chek-form">
+                                        <div  class="custome-checkbox"><input
+                                                 type="checkbox" name="checkbox" id="remember"
+                                                value="" class="form-check-input"><label 
+                                                for="remember" class="form-check-label"><span
+                                                    >Remember
+                                                    me</span></label></div>
+                                    </div>
+                                </div>
+                                <div  class="form-group mb-3"><button
+                                         type="submit" name="login"
+                                        class="btn btn-fill-out btn-block">Log in</button></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div  class="col-lg-6">
+                    <div  class="toggle_info"><span ><i
+                                 class="fas fa-tag"></i>Have a coupon? <a
+                                 href="#coupon" data-bs-toggle="collapse"
+                                aria-expanded="false" class="collapsed">Click here to enter your code</a></span>
+                    </div>
+                    <div  id="coupon" class="panel-collapse collapse coupon_form">
+                        <div  class="panel-body">
+                            <p >If you have a coupon code, please apply it below.</p>
+                            <div  class="coupon field_form input-group"><input
+                                     type="text" value="" placeholder="Enter Coupon Code.."
+                                    class="form-control">
+                                <div  class="input-group-append"><button
+                                         type="submit" class="btn btn-fill-out btn-sm">Apply
+                                        Coupon</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <div  class="row">
+                <div  class="col-12">
+                    <div  class="medium_divider"></div>
+                    <div  class="divider center_icon"><i 
+                            class="linearicons-credit-card"></i></div>
+                    <div  class="medium_divider"></div>
+                </div>
+            </div>
+            <div  class="row">
+                <div  class="col-md-6">
+                    <div  class="heading_s1">
+                        <h4 >Billing Address</h4>
+                    </div>
+                    <div  class="heading_s1">
+                        <h4 >Shipping Address</h4>
+                    </div>
+                  
+                   
+                </div>
+                <div  class="col-md-6">
+                    <div  class="order_review">
+                        <div  class="heading_s1">
+                            <h4 >Your Orders</h4>
+                        </div>
+                        <div  class="table-responsive order_table">
+                            <table  class="table">
+                                <thead >
+                                    <tr >
+                                        <th >Product</th>
+                                        <th >Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    {% for item in cart.items %}
+                                    <tr >
+                                        <td >
+                                            {{ item.product.name }} 
+                                            <span class="product-qty">x {{item.quantity}}</span>
+                                        </td>
+                                        <td >
+                                            {{(item.product.soldePrice/100) |format_currency('EUR')}}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot >
+                                    <tr >
+                                        <th >SubTotal</th>
+                                        <td  class="product-subtotal">{{(cart.sub_total/100) |format_currency('EUR')}}</td>
+                                    </tr>
+                                    <tr >
+                                        <th >Shipping</th>
+                                        <td >Free Shipping</td>
+                                    </tr>
+                                    <tr >
+                                        <th >Total</th>
+                                        <td  class="product-subtotal">{{ (cart.sub_total/100) |format_currency('EUR') }}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div  class="payment_method">
+                           
+                        </div>
+                        <a  href="#" class="btn btn-fill-out btn-block">
+                            Pay now ({{ (cart.sub_total/100) |format_currency('EUR') }})
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}#}

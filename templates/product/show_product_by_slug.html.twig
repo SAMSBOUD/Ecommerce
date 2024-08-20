@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Jstore | Home page {% endblock %}
+{% block title %}Jstore | {% trans %}Product page{% endtrans %} {% endblock %}
 
 {% block body %}
 {% include "page_head/page_head.html.twig" with {'page_name': product.name } %}
@@ -11,23 +11,26 @@
                 <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
                     <div class="product-image">
                         <div class="product_img_box"><img id="product_img" alt="product_img1"
-                                src="/assets/images/products/{{ product.imageUrls[0] }}"
-                                data-zoom-image="/assets/images/products/{{ product.imageUrls[0] }}"><a title="Zoom"
+                                src="{{ asset('assets/images/products/'~ product.imageUrls[0]|url_encode) }}"
+                                data-zoom-image="{{ asset('assets/images/products/'~ product.imageUrls[0]|url_encode) }}"><a title="Zoom"
                                 class="product_img_zoom"><span class="linearicons-zoom-in"></span></a>
                         </div>
-                        <div id="pr_item_gallery" data-slides-to-show="4" data-slides-to-scroll="1"
+                        <div id="pr_item_gallery" data-slides-to-show="{{ product.imageUrls|length }}" data-slides-to-scroll="1"
                             data-infinite="false"
                             class="product_gallery_item slick_slider slick-initialized slick-slider">
                             <div aria-live="polite" class="slick-list draggable">
                                 <div class="slick-track" role="listbox" style="opacity: 1; width: 556px; left: 0px;">
                                     {% for imageUrl in product.imageUrls %}
-                                    <div class="item slick-slide slick-current slick-active" data-slick-index="0"
-                                        aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide20"
-                                        style="width: 129px;"><a href="#" class="product_gallery_item active"
-                                            data-image="/assets/images/products/{{ imageUrl }}"
-                                            data-zoom-image="/assets/images/products/{{ imageUrl }}" tabindex="0"><img
+                                    <div class="item slick-slide slick-current slick-active" data-slick-index="{{ loop.index }}"
+                                        aria-hidden="false" tabindex="-1" role="option" aria-describedby="{{ "slick-slide2"~loop.index }}"
+                                        style="width: 129px;">
+                                        <a href="#" class="product_gallery_item {{ (product.imageUrls[0]==imageUrl)?'active':'' }}"
+                                            data-image="{{ asset('assets/images/products/'~imageUrl|url_encode) }}"
+                                            data-zoom-image="{{ asset('assets/images/products/'~imageUrl|url_encode) }}" tabindex="0"><img
                                                 alt="product_small_img1"
-                                                src="/assets/images/products/{{ imageUrl }}"></a>
+                                                {# src="assets/images/products/{{ imageUrl }}" #}
+                                                src="{{ asset('assets/images/products/'~imageUrl|url_encode) }}"
+                                            ></a>
                                     </div>
                                     {% endfor %}
 
@@ -86,7 +89,8 @@
                                 </div>
                             </div>
                             <div class="cart_btn">
-                                <a href="/cart/add/{{product.id}}/1" type="button" class="btn btn-fill-out btn-addtocart">
+                               {#  /cart/add/{{product.id}}/1#}
+                                <a href="{{ path('app_cart_add',{'productId':product.id,'count':1}) }}" type="button" class="btn btn-fill-out btn-addtocart">
                                     <i class="icon-basket-loaded"></i>
                                     Add to cart
                                 </a>
@@ -142,19 +146,19 @@
                         <div class="tab-content shop_info_tab">
                             <div id="Description" role="tabpanel" aria-labelledby="Description-tab"
                                 class="tab-pane fade show active">
-                                {{ product.description }}
+                                {{ product.description|raw }}
                             </div>
                             <div id="Additional-info" role="tabpanel" aria-labelledby="Additional-info-tab"
                                 class="tab-pane fade">
-                                <!-- {{ product.moreDescription }} -->
-                                {{ product.additionalInfos }}
+                                <!-- {{ product.moreDescription|raw }} -->
+                                {{ product.additionalInfos|raw }}
                             </div>
                             <div id="Reviews" role="tabpanel" aria-labelledby="Reviews-tab" class="tab-pane fade">
                                 <!-- <div class="comments">
                                     <h5 class="product_tab_title">2 Review For <span>Blue Dress For Woman</span></h5>
                                     <ul class="list_none comment_list mt-4">
                                         <li>
-                                            <div class="comment_img"><img src="/assets/images/user1.jpg" alt="user1">
+                                            <div class="comment_img"><img src="assets/images/user1.jpg" alt="user1">
                                             </div>
                                             <div class="comment_block">
                                                 <div class="rating_wrap">
@@ -173,7 +177,7 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="comment_img"><img src="/assets/images/user2.jpg" alt="user2">
+                                            <div class="comment_img"><img src="assets/images/user2.jpg" alt="user2">
                                             </div>
                                             <div class="comment_block">
                                                 <div class="rating_wrap">
@@ -246,7 +250,7 @@
                                     <div class="item">
                                         <div class="product">
                                             <div class="product_img"><a href="shop-product-detail.html"><img
-                                                        src="/assets/images/product_img1.jpg" alt="product_img1"></a>
+                                                        src="assets/images/product_img1.jpg" alt="product_img1"></a>
                                                 <div class="product_action_box">
                                                     <ul class="list_none pr_action_btn">
                                                         <li class="add-to-cart"><a href="#"><i
@@ -296,7 +300,7 @@
                                     <div class="item">
                                         <div class="product">
                                             <div class="product_img"><a href="shop-product-detail.html"><img
-                                                        src="/assets/images/product_img2.jpg" alt="product_img2"></a>
+                                                        src="assets/images/product_img2.jpg" alt="product_img2"></a>
                                                 <div class="product_action_box">
                                                     <ul class="list_none pr_action_btn">
                                                         <li class="add-to-cart"><a href="#"><i
@@ -345,7 +349,7 @@
                                     <div class="item">
                                         <div class="product"><span class="pr_flash">New</span>
                                             <div class="product_img"><a href="shop-product-detail.html"><img
-                                                        src="/assets/images/product_img3.jpg" alt="product_img3"></a>
+                                                        src="assets/images/product_img3.jpg" alt="product_img3"></a>
                                                 <div class="product_action_box">
                                                     <ul class="list_none pr_action_btn">
                                                         <li class="add-to-cart"><a href="#"><i
@@ -395,7 +399,7 @@
                                     <div class="item">
                                         <div class="product">
                                             <div class="product_img"><a href="shop-product-detail.html"><img
-                                                        src="/assets/images/product_img4.jpg" alt="product_img4"></a>
+                                                        src="assets/images/product_img4.jpg" alt="product_img4"></a>
                                                 <div class="product_action_box">
                                                     <ul class="list_none pr_action_btn">
                                                         <li class="add-to-cart"><a href="#"><i
@@ -444,7 +448,7 @@
                                     <div class="item">
                                         <div class="product">
                                             <div class="product_img"><a href="shop-product-detail.html"><img
-                                                        src="/assets/images/product_img5.jpg" alt="product_img5"></a>
+                                                        src="assets/images/product_img5.jpg" alt="product_img5"></a>
                                                 <div class="product_action_box">
                                                     <ul class="list_none pr_action_btn">
                                                         <li class="add-to-cart"><a href="#"><i
@@ -496,7 +500,7 @@
                                     class="ion-ios-arrow-left"></i></button><button type="button" role="presentation"
                                 class="owl-next"><i class="ion-ios-arrow-right"></i></button>
                         </div>
-                        
+
                     </div>
                 </div>
             </div> -->

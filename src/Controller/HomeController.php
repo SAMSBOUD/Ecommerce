@@ -12,14 +12,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class HomeController extends AbstractController
 {
     private $repoProduct; 
+    private $requestStack;
 
-    public function __construct(ProductRepository $repoProduct)
+
+    public function __construct(ProductRepository $repoProduct,RequestStack $requestStack)
     {
         $this->repoProduct = $repoProduct; 
+        $this->requestStack = $requestStack;
 
         // Pour pouvoir éviter à chaque fois d'injecter ou récupérer mes produits dans la route, l'on peut créer
         //une fonction pour le faire au niveau du controller. De cette manière productRepo sera dispo dans toute les méthodes déclarer. 
@@ -59,7 +65,7 @@ class HomeController extends AbstractController
         $session->set("footerPages", $footerPages);
         $session->set("categories", $categories);
         $session->set("megaCollections", $megaCollections); 
-
+       // dd($categories);
 
         return $this->render('home/index.html.twig', [
         
@@ -92,6 +98,17 @@ class HomeController extends AbstractController
         'product'=> $product
 
     ]);
+
+    }
+    #[Route('/contact', name: 'app_home_contact')]
+
+    public function contact()
+    {
+        return $this->render('contact/index.html.twig', [
+
+            //'product'=> $product
+
+        ]);
 
     }
     
@@ -134,6 +151,24 @@ class HomeController extends AbstractController
             'controller_name' => 'PageController'
     ]);
 
+    }
+
+   
+    #[Route('/change-language/{locale}', name: 'change_language')]
+    public function changeLanguage($locale, Request $request): Response
+    {
+        //dd($locale);
+        // On stoke la langue demandée dans la session
+        $request->getSession()->set('_locale', $locale);
+        $request->setLocale($locale);
+        $referer = $request->headers->get('referer');
+       // return new RedirectResponse($referer);
+       //dd($session);
+        return $this->redirect($referer);
+       /* $session->set('_locale', $locale);
+        $referer = $request->headers->get('referer');
+      //  dd($session);
+        return new RedirectResponse($referer);*/
     }
 
 }

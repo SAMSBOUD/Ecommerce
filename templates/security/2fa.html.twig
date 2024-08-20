@@ -1,0 +1,85 @@
+{# templates/security/2fa.html.twig #}
+{% extends 'default.html.twig' %}
+
+{% block title %}Vérification à deux facteurs!
+{% endblock %}
+
+{% block body %}
+{% include "page_head/page_head.html.twig" with {'page_name': 'Vérification à deux facteurs'} %}
+	<div class="main_content">
+		<div class="login_register_wrap section">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-xl-6 col-md-10">
+						<div class="login_wrap">
+							<div class="padding_eight_all bg-white">
+								<div class="heading_s1">
+									<h2>Vérification à deux facteurs</h2>
+								</div>
+                                 {% for message in app.flashes('error') %}
+                                    <div class="alert alert-danger">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                                <form method="post">
+                                    <div class="form-group mb-3">
+                                    <input type="text" name="code" 
+                                    required placeholder="Entrez le code reçu par email" class="form-control">
+                                    </div>
+                                     <div class="form-group mb-3">
+                                    <button class="btn btn-fill-out btn-block btn-danger" type="submit">Vérifier</button>
+                                    </div>
+                                </form>
+                               
+                                 <div class="" style="padding:12px">
+                                        <button class="btn btn-success" id="resendCode">Renvoyer le code</button>
+                                 </div>
+                                </div>
+                                 </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+                               
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		const addFlashMessage = (message, status = "success") => {
+            let text = `
+            <div class="alert alert-${status}" role="alert">
+            ${message}
+            </div>
+            `
+            let audio = document.createElement("audio")
+            audio.src = BASE_URL+"/assets/audios/success.wav"
+
+            audio.play()
+            document.querySelector(".notification").innerHTML += text
+
+            setTimeout(() => {
+                document.querySelector(".notification").innerHTML = ""
+            }, 2000)
+        }
+                document.getElementById('resendCode').addEventListener('click', function () {
+                fetch('{{ path('app_2fa_resend') }}', {
+                method: 'POST',
+                headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+                }
+                }).then(response => response.json()).then(data => {
+                    console.log(data)
+                if (data.success) {
+                addFlashMessage(data.message);
+                } else {
+                addFlashMessage("Erreur lors de l'envoi du code", "danger");
+                // alert('');
+                }
+                });
+                });
+	</script>
+{% endblock %}

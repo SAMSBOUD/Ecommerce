@@ -74,6 +74,9 @@ class Product
     #[ORM\ManyToOne(targetEntity: self::class)]
     private ?self $relatedProducts = null;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?Brand $fkBrand = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -334,5 +337,17 @@ class Product
     public function __toString(): string
     {
         return $this->name; // or another appropriate property
+    }
+
+    public function getFkBrand(): ?Brand
+    {
+        return $this->fkBrand;
+    }
+
+    public function setFkBrand(?Brand $fkBrand): static
+    {
+        $this->fkBrand = $fkBrand;
+
+        return $this;
     }
 }

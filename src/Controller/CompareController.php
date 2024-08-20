@@ -24,7 +24,7 @@ class CompareController extends AbstractController
 
          $compare_json = json_encode($compare); 
 
-
+        //dd($compare_json);
         return $this->render('compare/index.html.twig', [
             'controller_name' => 'CompareController',
             'compare' =>$compare,

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}RecMarket Home page {% endblock %}
+{% block title %}RecMarket {% trans %}Home page{% endtrans %} {% endblock %}
 
 {% block body %}
 
@@ -11,8 +11,8 @@
             {% for slide in sliders %}
                 <div  class="carousel-item {{loop.index < 2  ?  'active' : '' }} background_bg"
                    
-                    data-img-src="/assets/images/sliders/{{slide.imageUrl}}"
-                    style="background-image: url('/assets/images/sliders/{{slide.imageUrl}}');">
+                    data-img-src="{{ asset('assets/images/sliders/'~slide.imageUrl|url_encode) }}"
+                    style="background-image: url('assets/images/sliders/{{slide.imageUrl}}');">
                     <div  class="banner_slide_content">
                         <div  class="container">
                             <div  class="row">
@@ -62,7 +62,7 @@
                     <div  class="col-md-6">
                         <div  class="single_banner"><img 
                                 alt="shop_banner_img1"
-                                src="/assets/images/collections/{{collection.imageUrl}}">
+                                src="{{ asset('assets/images/collections/'~collection.imageUrl|url_encode)}}">
                             <div  class="single_banner_info">
                                 <h5  class="single_bn_title1">{{collection.description}}</h5>
                                 <h3  class="single_bn_title">{{collection.title}}</h3><a

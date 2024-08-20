@@ -44,6 +44,13 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        /**
+         * @vau User $user
+         */
+        $user = $token->getUser();
+        if ($user->isIsDoubleFactor()) {
+            return new RedirectResponse($this->urlGenerator->generate('app_2fa'));
+        }
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }

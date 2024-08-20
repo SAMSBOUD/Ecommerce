@@ -21,6 +21,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserCrudController extends AbstractCrudController
@@ -46,6 +47,7 @@ public function __construct(
         ->add(Crud::PAGE_EDIT,Action::DETAIL); /* permet de voir affiche de détail quand Edit user */
 
 
+
     }
 
     
@@ -53,6 +55,7 @@ public function __construct(
     {
         return [
             IdField::new('id')->hideOnForm(),
+            ArrayField::new('roles'),
             ChoiceField::new('civility')->setChoices([
                 'Monsieur' => 'Mr',
                 'Madame' => 'Mme',
@@ -61,28 +64,27 @@ public function __construct(
             ),
             TextField::new('full_name'),
             EmailField::new('email'),
-            TextField::new('password')
-            ->setFormType(RepeatedType::class)
-            ->setFormTypeOptions([
-                'type'=>PasswordType::class,
-                'first_options' => ['label'=>'Password',
-                'row_attr'=>[
-                    'class'=>"col-md-6 col-xxl-5"
-                ],
+            // TextField::new('password')
+            // ->setFormType(RepeatedType::class)
+            // ->setFormTypeOptions([
+            //     'type'=>PasswordType::class,
+            //     'first_options' => ['label'=>'Password',
+            //     'row_attr'=>[
+            //         'class'=>"col-md-6 col-xxl-5"
+            //     ],
             
-            ],
-                'second_options' => [
-                    'label'=>'(Confirm Password)',
-                    'row_attr'=>[
-                        'class'=>"col-md-6 col-xxl-5"
-                    ],
+            // ],
+            //     'second_options' => [
+            //         'label'=>'(Confirm Password)',
+            //         'row_attr'=>[
+            //             'class'=>"col-md-6 col-xxl-5"
+            //         ],
                 
-                ],
-                'mapped'=> false,
-            ])
-            ->setRequired($pageName === Crud::PAGE_NEW)
-            ->onlyOnForms(),
-
+            //     ],
+            //     'mapped'=> false,
+            //])
+            // ->setRequired($pageName === Crud::PAGE_NEW)
+            // ->onlyOnForms(),
 
 
         ];
@@ -117,15 +119,15 @@ public function __construct(
                 return;
             }
 
-             $password =$form->get('password')->getData(); 
+            //  $password =$form->get('password')->getData(); 
 
-             if($password === null){
-                return ; 
+            //  if($password === null){
+            //     return ; 
 
-             }  
+            //  }  
 
-             $hash = $this->userPasswordHasher->hashPassword($this->getUser(), $password); 
-             $form->getData()->setPassword($hash); 
+            //  $hash = $this->userPasswordHasher->hashPassword($this->getUser(), $password); 
+            //  $form->getData()->setPassword($hash); 
            };
 
 

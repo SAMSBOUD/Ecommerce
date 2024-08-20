@@ -11,14 +11,26 @@ use App\Entity\Category;
 use App\Entity\Colection;
 use Symfony\Component\HttpFoundation\Response;
 use App\Controller\Admin\ProductCrudController;
+use App\Entity\Brand;
+use App\Entity\Carrier;
+use App\Entity\Order;
+use App\Entity\PaymentMethod;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class DashboardController extends AbstractDashboardController
 {
+    private $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
@@ -52,13 +64,26 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Products', 'fas fa-list', Product::class);
         yield MenuItem::linkToCrud('Categories', 'fas fa-tag', Category::class);
+        yield MenuItem::linkToCrud('Marques', 'fas fa-tag', Brand::class);
         yield MenuItem::linkToCrud('Users', 'fas fa-users', User::class);
-        yield MenuItem::linkToCrud('Slidesr', 'fas fa-sliders', Sliders::class);
+        yield MenuItem::linkToCrud('Carriers', 'fas fa-car', Carrier::class);
+        yield MenuItem::linkToCrud('Sliders', 'fas fa-sliders', Sliders::class);
         yield MenuItem::linkToCrud('Pages', 'fas fa-book', Page::class);
         yield MenuItem::linkToCrud('Collections', 'fas fa-panorama', Colection::class);
+        yield MenuItem::linkToCrud('Payment methods', 'fas fa-landmark', PaymentMethod::class);
+        yield MenuItem::linkToCrud('Orders', 'fas fa-shopping-cart', Order::class);
         yield MenuItem::linkToCrud('Settings', 'fas fa-gear', Setting::class);
 
 // fas-fa is for the icon
 
+    }
+    public function configureAssets(): Assets
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $baseUrl = $request->getSchemeAndHttpHost().$request->getBaseUrl();
+        //dd($baseUrl);
+        return Assets::new()
+            ->addJsFile('data:application/javascript, window.base_url  = "' . $baseUrl . '";')
+            ->addJsFile('assets/js/admin.js');
     }
 }

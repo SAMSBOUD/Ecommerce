@@ -42,10 +42,14 @@ class Category
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'categories')]
     private Collection $products;
 
+    #[ORM\OneToMany(mappedBy: 'fkCategory', targetEntity: Brand::class)]
+    private Collection $brands;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->setCreatedAt(new \DateTimeImmutable());
+        $this->brands = new ArrayCollection();
 
     }
 
@@ -171,5 +175,35 @@ class Category
         return $this->name;
         // function created because App/Entity/Category could not be converted to string when adding 
         //associationField in ProductCrudController 'categories'. 
+    }
+
+    /**
+     * @return Collection<int, Brand>
+     */
+    public function getBrands(): Collection
+    {
+        return $this->brands;
+    }
+
+    public function addBrand(Brand $brand): static
+    {
+        if (!$this->brands->contains($brand)) {
+            $this->brands->add($brand);
+            $brand->setFkCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBrand(Brand $brand): static
+    {
+        if ($this->brands->removeElement($brand)) {
+            // set the owning side to null (unless already changed)
+            if ($brand->getFkCategory() === $this) {
+                $brand->setFkCategory(null);
+            }
+        }
+
+        return $this;
     }
 }

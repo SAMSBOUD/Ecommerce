@@ -6,21 +6,22 @@
 					<div class="d-flex align-items-center justify-content-center justify-content-md-start">
 						<div class="me-3">
 							<div class="ddOutOfVision" id="msdrpdd20_msddHolder" style="height: 0px; overflow: hidden; position: absolute;">
-								<select name="countries" class="custome_select" id="msdrpdd20" tabindex="-1">
+								{#<select name="countries" class="custome_select" id="msdrpdd20" tabindex="-1">
 									<option value="USD" data-title="USD" ng-reflect-value="USD">USD</option>
 									<option value="EUR" data-title="EUR" ng-reflect-value="EUR">EUR</option>
 									<option value="GBR" data-title="GBR" ng-reflect-value="GBR">GBR</option>
-								</select>
+								</select>#}
 							</div>
 							<div class="dd ddcommon borderRadius" id="msdrpdd20_msdd" tabindex="0" style="width: 52px;">
 								<div class="ddTitle borderRadiusTp">
 									<span class="divider"></span>
-									<span class="ddArrow arrowoff"></span>
+									{#<span class="ddArrow arrowoff"></span>
 									<span class="ddTitleText " id="msdrpdd20_title">
-										<span class="ddlabel">USD</span>
+										<span class="ddlabel">USD</span>#}
 										<span class="description" style="display: none;"></span>
 									</span>
-								</div><input id="msdrpdd20_titleText" type="text" autocomplete="off" class="text shadow borderRadius" style="display: none;">
+								</div>
+								<input id="msdrpdd20_titleText" type="text" autocomplete="off" class="text shadow borderRadius" style="display: none;">
 								<div class="ddChild ddchild_ border shadow" id="msdrpdd20_child" style="z-index: 9999; display: none; position: absolute; visibility: visible; height: 99px;">
 									<ul>
 										<li class="enabled _msddli_ selected" title="USD">
@@ -54,49 +55,62 @@
 					<div class="text-center text-md-end">
 						<ul class="header_list">
 							<li>
-								<a href="/compare">
+								<a href="{{ path('app_compare') }}" class="nav-link {{ app.request.get('_route') == 'app_compare' ? 'active':' ' }}">
 									<i class="ti-control-shuffle"></i>
-									<span>Compare</span>
+									<span>{% trans %}Compare{% endtrans %}</span>
 								</a>
 							</li>
 							<li>
-								<a href="/wishlist">
+								<a href="{{ path('app_wish_list') }}" class="nav-link {{ app.request.get('_route') == 'app_wish_list' ? 'active':' ' }}">
 									<i class="ti-heart"></i>
-									<span>Wishlist</span>
+									<span>{% trans %}Wishlist{% endtrans %} </span>
 								</a>
 							</li>
 
 							{% if app.user %}
 								<li>
-									<a href="/account">
+									<a href="{{ path('app_account') }}">
 										<i class="ti-user"></i>
-										<span>Account</span>
+										<span>{% trans %}Account{% endtrans %}</span>
 									</a>
 								</li>
 								<li>
-									<a href="/logout">
+									<a href="{{ path('app_logout') }}">
 										<i class="ti-user"></i>
-										<span>Logout</span>
+										<span>{% trans %}Logout{% endtrans %}</span>
 									</a>
 								</li>
 							{% else %}
 								<li>
-									<a href="/login">
+									<a href="{{ path('app_login') }}">
 										<i class="ti-user"></i>
-										<span>Signin</span>
+										<span>{% trans %}Signin{% endtrans %}</span>
 									</a>
 								</li>
 								<li>
-									<a href="/register">
+									<a href="{{ path('app_register') }}">
 										<i class="ti-user"></i>
-										<span>Signup</span>
+										<span>{% trans %}Signup{% endtrans %}</span>
 									</a>
 								</li>
 
 							{% endif %}
+							{% for locale in locales %}
+								{% if locale != app.request.locale %}
+									<li><a href="{{ path('change_language', {'locale': locale}) }}">
+										{# locale|upper #}
+											<img src="{{ asset('assets/images/langues/'~locale~'.png') }}" alt="{{locale}}" style="width:25px;height: 25px; overflow: hidden;"/>
+									</a></li>
+								{% endif %}
+							{% endfor %}
+							{#<li><a href="{{ path('change_language', {'locale': 'fr'}) }}">FR</a></li>
+               				 <li><a href="{{ path('change_language', {'locale': 'en'}) }}">EN</a></li>#}
 							<li></li>
 							<li></li>
 						</ul>
+						<nav>
+         
+        </nav>
 					</div>
 				</div>
 			</div>
@@ -105,7 +119,7 @@
 	<div class="bottom_header dark_skin main_menu_uppercase">
 		<div class="container">
 			<nav class="navbar navbar-expand-lg">
-				<a routerlink="/" class="navbar-brand" ng-reflect-router-link="/" href="/">
+				<a routerlink="{{ path('app_home') }}" class="navbar-brand" ng-reflect-router-link="{{ path('app_home') }}" href="{{ path('app_home') }}">
 					<h2>
 						{{app.session.get("setting").websiteName}}
 					</h2>
@@ -116,16 +130,17 @@
 				<div id="navbarSupportedContent" class="navbar-collapse justify-content-end collapse" style="">
 					<ul class="navbar-nav">
 						<li class="dropdown">
-							<a routerlink="/" class="nav-link" ng-reflect-router-link="/" href="/">Home</a>
+							<a routerlink="{{ path('app_home') }}" class="nav-link {{ app.request.get('_route') == 'app_home' ? 'active':'' }}" ng-reflect-router-link="{{ path('app_home') }}" href="{{ path('app_home') }}">{% trans %}Home{% endtrans %}</a>
 						</li>
 						<li class="dropdown">
-							<a href="#" data-bs-toggle="dropdown" class="dropdown-toggle nav-link active" aria-expanded="false">Pages</a>
+							<a href="#" data-bs-toggle="dropdown" class="dropdown-toggle nav-link {{ app.request.get('_route') == 'app_pages' ? 'active':' ' }}" aria-expanded="false">{% trans %}Pages{% endtrans %}</a>
 							<div class="dropdown-menu">
 								<ul>
 									{% for page in app.session.get("headerPages") %}
 
 										<li>
-											<a class="dropdown-item nav-link nav_item" href=" /page/{{page.slug}}">{{page.title}}</a>
+											{#  /page/{{page.slug}} #}
+											<a class="dropdown-item nav-link nav_item {{ app.request.get('_route') == 'app_page' and app.request.get('slug') == page.slug ? 'active' : '' }}" href="{{ path('app_page', {'slug': page.slug}) }}">{{page.title}}</a>
 										</li>
 									{% endfor %}
 
@@ -133,27 +148,48 @@
 							</div>
 						</li>
 						<li class="dropdown dropdown-mega-menu">
-							<a href="#" data-bs-toggle="dropdown" class="dropdown-toggle nav-link" aria-expanded="false">Products</a>
+							<a href="#" data-bs-toggle="dropdown" class="dropdown-toggle nav-link" aria-expanded="false">{% trans %}Products{% endtrans %}</a>
 							<div class="dropdown-menu">
 								<ul class="mega-menu d-lg-flex">
+
 									{% for category in app.session.get('categories') %}
 										<li class="mega-menu-col col-lg-3">
 											<ul>
 												<li class="dropdown-header">{{category.name }}
 												</li>
-												{% for product in category.products %}
-													{% if loop.index < 4 %}
-														{# // to limit up to 3 choice. #}
+												{# Filtrer les produits qui sont soit best_seller soit special_offer #}
+												{% set filtered_products = category.products|filter(product => product.isBestSeller or product.isSpecialOffer) %}
 
+												{# Trier les produits par date de création ou un autre critère (assurez-vous d'avoir un champ 'createdAt' ou similaire) #}
+												{% set sorted_products = category.products|sort((a, b) => b.createdAt <=> a.createdAt) %}
 
-														<li>
-															<a class="dropdown-item nav-link nav_item" href="/product/{{product.slug}}">
-																{{product.name}}
+												{# Limiter à quatre produits #}
+												{% set limited_products = sorted_products|slice(0, 4) %}
+												{% for brand in category.brands.values %}
+													{% if brand.products.values|length >0%}
+													{#{{dump(brand.products.values)}}href="{{ path('app_product_by_slug', {'slug': product.slug}) }}#}
+														
+													<li>
+															<a class="dropdown-item nav-link nav_item 
+															{{ app.request.get('_route') == 'app_shop_controller' and app.request.get('brands') == brand.id ? 'active' : '' }}"
+															 href="{{ path('app_shop_controller', {'brands': brand.id}) }}">
+																{{ brand.libelle  }} <b> ({{(brand.products.values|length)}})</b>
 															</a>
 
 														</li>
 													{% endif %}
 												{% endfor %}
+												
+												{#{% for product in limited_products %}#}
+													{#{% if loop.index < 4 %}	{% endif %}// to limit up to 3 choice. #}
+													{#<li>
+															<a class="dropdown-item nav-link nav_item {{ app.request.get('_route') == 'app_product_by_slug' and app.request.get('slug') == product.slug ? 'active' : '' }}" href="{{ path('app_product_by_slug', {'slug': product.slug}) }}">
+																{{ product.name }}
+															</a>
+
+														</li>
+												{% endfor %}
+												#}
 											</ul>
 										</li>
 									{% endfor %}
@@ -163,7 +199,7 @@
 									{% for colection in app.session.get('megaCollections') %}
 
 										<div class="col-sm-4">
-											<div class="header-banner"><img alt="menu_banner1" src="/assets/images/collections/{{colection.imageUrl}}">
+											<div class="header-banner"><img alt="menu_banner1" src="{{ asset('assets/images/collections/'~colection.imageUrl|url_encode) }}">
 												<div class="banne_info">
 													<h6>{{colection.description}}
 														Off</h6>
@@ -176,17 +212,16 @@
 										</div>
 									{% endfor %}
 									{# <div class="col-sm-4">
-																			<div class="header-banner"><img alt="menu_banner1" src="/assets/files/megaCollection/8932488097310286313588503554459963159142614451684826970123.png">
+																			<div class="header-banner"><img alt="menu_banner1" src="assets/files/megaCollection/8932488097310286313588503554459963159142614451684826970123.png">
 																				<div class="banne_info">
-																					<h6>15% Off</h6>
-																					<h4>Men's Fashion</h4>
-																					<a href="http://localhost:4300/">Shop
-																						                                                    Now</a>
+																					<h6>{% trans %}15% Off{% endtrans %}</h6>
+																					<h4>{% trans %}Men's Fashion{% endtrans %}</h4>
+																					<a href="http://localhost:4300/">Shop Now</a>
 																				</div>
 																			</div>
 																		</div>
 																		<div class="col-sm-4">
-																			<div class="header-banner"><img alt="menu_banner1" src="/assets/files/megaCollection/1412527185807988177642011518607795945067036381684827015102.png">
+																			<div class="header-banner"><img alt="menu_banner1" src="assets/files/megaCollection/1412527185807988177642011518607795945067036381684827015102.png">
 																				<div class="banne_info">
 																					<h6>23% Off</h6>
 																					<h4>Kids Fashion</h4>
@@ -199,11 +234,13 @@
 							</div>
 						</li>
 						<li class="dropdown dropdown-mega-menu">
-							<a routerlink="/shop-list" class="nav-link" href="/">Shop</a>
+							<a href="{{ path('app_shop_controller', {'brands': ''}) }}" 
+							   class="nav-link nav_item {{ app.request.get('_route') == 'app_shop_controller' ? 'active' : ''}}">{% trans %}Shop{% endtrans %}</a>
 						</li>
 						<li>
-							<a routerlink="/contact" class="nav-link nav_item" ng-reflect-router-link="/contact" href="/contact">Contact
-																                                Us</a>
+							<a routerlink="{{ path('app_home_contact') }}" class="nav-link nav_item {{ app.request.get('_route') == 'app_home_contact' ? 'active' : ''}}"
+							   ng-reflect-router-link="{{ path('app_home_contact') }}"
+							   href="{{ path('app_home_contact') }}">{% trans %}Contact Us{% endtrans %}</a>
 						</li>
 					</ul>
 				</div>
@@ -266,11 +303,13 @@
 									
 									</span>
 								</p>
+
 								<p class="cart_buttons">
-									<a routerlink="/cart" class="btn btn-fill-line view-cart" 
-									ng-reflect-router-link="/cart" href="/cart">View Cart</a>
-									<a routerlink="/checkout" class="btn btn-fill-out checkout" 
-									ng-reflect-router-link="/checkout" href="/checkout">Checkout</a>
+									<a routerlink="{{ path('app_cart') }}"
+									   class="btn btn-fill-line view-cart {{ app.request.get('_route') == 'app_cart' ? 'active':' ' }}"
+									ng-reflect-router-link="{{ path('app_cart') }}" href="{{ path('app_cart') }}">{% trans %}View Cart{% endtrans %}</a>
+									<a routerlink="{{ path('app_checkout') }}" class="btn btn-fill-out checkout"
+									ng-reflect-router-link="{{ path('app_checkout') }}" href="{{ path('app_checkout') }}">{% trans %}Checkout{% endtrans %}</a>
 								</p>
 							</div>
 						</div>

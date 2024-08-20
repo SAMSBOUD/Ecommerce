@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}RecMarket | Page Error {% endblock %}
+{% block title %}RecMarket | {% trans %}Page Error{% endtrans %} {% endblock %}
 
 {% block body %}
 {% include "page_head/page_head.html.twig" with {'page_name': "Page Not Found"} %}
@@ -25,7 +25,7 @@
                                             class="ion-ios-search-strong"></i></button>
                                 </form>
                             </div> #}
-                            <a href="/" class="btn btn-fill-out">Back To Home</a>
+                            <a href="/" class="btn btn-fill-out">{% trans %}Back To Home{% endtrans %}</a>
                         </div>
                     </div>
                 </div>

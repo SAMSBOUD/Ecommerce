@@ -42,6 +42,7 @@ class WishListController extends AbstractController
     #[Route('/wishlist/remove/{productId}', name: 'app_remove_to_wishlist')]
     public function removeToWishList(string $productId): Response
     {
+        //96402861 tata monique
         $this->wishlistService->removeToWishList($productId);
         $wishlist = $this->wishlistService->getWishListDetails();
 

@@ -1,4 +1,5 @@
-{% extends 'base.html.twig' %}
+{#{% extends 'base.html.twig' %}#}
+{% extends 'default.html.twig' %}
 
 {% block title %}Log in!
 {% endblock %}
@@ -17,14 +18,19 @@
 									<h3>Login</h3>
 								</div>
 								<form method="post" class="ng-untouched ng-pristine ng-invalid">
+									 {% for message in app.flashes('error') %}
+										<div class="alert alert-danger">
+											{{ message }}
+										</div>
+									{% endfor %}
 									{% if error %}
 										<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 									{% endif %}
-									{% if app.user %}
+									{% if app.user and app.user.blocages.values|length==0 %}
 										<div class="mb-3">
 											You are logged in as
 											{{ app.user.userIdentifier }},
-											<a href="{{ path('app_logout') }}">Logout</a>
+											<a href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a>
 										</div>
 									{% endif %}
 
@@ -44,7 +50,7 @@
 									<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 									<div class="form-group mb-3">
-										<button type="submit" name="login" class="btn btn-fill-out btn-block">Log in</button>
+										<button type="submit" name="login" class="btn btn-fill-out btn-block">{% trans %}Log in{% endtrans %}</button>
 									</div>
 								</form>
 								<div class="different_login">
@@ -61,8 +67,8 @@
 																																																			<i class="ion-social-googleplus"></i>Google</a>
 																																																	</li>
 																																																</ul> #}
-								<div class="form-note text-center">Don't Have an Account?
-									<a href="/register">Sign up now</a>
+								<div class="form-note text-center">{% trans %}Don't Have an Account?{% endtrans %}
+									<a href="/register">{% trans %}Sign up now{% endtrans %}</a>
 								</div>
 							</div>
 						</div>

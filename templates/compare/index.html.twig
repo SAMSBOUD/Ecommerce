@@ -3,7 +3,8 @@
 {% block title %}RecMarket | Compare Product !{% endblock %}
 
 {% block body %}
-{% include "page_head/page_head.html.twig" with {'page_name': 'Compare'} %}
+{% set translated_page_name = 'Compare'|trans %}
+{% include "page_head/page_head.html.twig" with {'page_name': translated_page_name} %}
 <div class="section compare_container" data-compare="{{compare_json}}">
     <div class="container">
         <div class="row">

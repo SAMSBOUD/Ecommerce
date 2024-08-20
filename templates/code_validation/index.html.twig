@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!
+{% endblock %}
+
+{% block body %}
+{% include "page_head/page_head.html.twig" with {'page_name': 'Login Form'} %}
+
+	<div class="main_content">
+		<div class="login_register_wrap section">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-xl-6 col-md-10">
+						<div class="login_wrap">
+							<div class="padding_eight_all bg-white">
+								<div class="heading_s1">
+									<h3>Entrer le code que vous avez reçu par mail</h3>
+								</div>
+								<form method="post" class="ng-untouched ng-pristine ng-invalid">
+									{% if error %}
+										<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+									{% endif %}
+									<div class="form-group mb-3">
+                                    <input type="text" required="" name="code"  placeholder="Entrer votre code" class="form-control"
+                                     autocomplete="" value="" required autofocus>
+									</div>																								                                </div> #}
+									<input type="hidden" name="_csrf_token" value="{{ csrf_token('validate_code') }}">
+									<div class="form-group mb-3">
+										<button type="submit" name="validation" class="btn btn-fill-out btn-block">{% trans %}Valider{% endtrans %}</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
