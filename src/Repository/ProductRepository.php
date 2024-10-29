@@ -168,4 +168,19 @@ class ProductRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+        public function searchProducts(string $query): array
+        {
+            $qb = $this->createQueryBuilder('p');
+
+            $qb->leftJoin('p.categories', 'c')
+            ->leftJoin('p.fkBrand', 'b')
+            ->where('p.name LIKE :query')
+            ->orWhere('p.description LIKE :query')
+            ->orWhere('p.more_description LIKE :query')
+            ->orWhere('c.name LIKE :query')
+            ->orWhere('b.libelle LIKE :query')
+            ->setParameter('query', '%' . $query . '%');
+
+            return $qb->getQuery()->getResult();
+        }
 }

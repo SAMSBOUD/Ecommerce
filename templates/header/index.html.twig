@@ -130,7 +130,7 @@
 				<div id="navbarSupportedContent" class="navbar-collapse justify-content-end collapse" style="">
 					<ul class="navbar-nav">
 						<li class="dropdown">
-							<a routerlink="{{ path('app_home') }}" class="nav-link {{ app.request.get('_route') == 'app_home' ? 'active':'' }}" ng-reflect-router-link="{{ path('app_home') }}" href="{{ path('app_home') }}">{% trans %}Home{% endtrans %}</a>
+							<a  class="nav-link {{ app.request.get('_route') == 'app_home' ? 'active':'' }}"  href="{{ path('app_home') }}">{% trans %}Home{% endtrans %}</a>
 						</li>
 						<li class="dropdown">
 							<a href="#" data-bs-toggle="dropdown" class="dropdown-toggle nav-link {{ app.request.get('_route') == 'app_pages' ? 'active':' ' }}" aria-expanded="false">{% trans %}Pages{% endtrans %}</a>
@@ -253,10 +253,14 @@
 							<span class="close-search">
 								<i class="ion-ios-close-empty"></i>
 							</span>
-							<form novalidate="" class="ng-untouched ng-pristine ng-valid">
-								<input type="text" placeholder="Search" id="search_input" class="form-control"><button type="submit" class="search_icon">
+							<form method="get" name="q" action="{{ path('app_search_product') }}">
+							   
+								<input type="text" placeholder="Search" name="q" class="form-control">
+								<input type="hidden" name="t" value="{{ csrf_token('search_form') }}">
+								<button type="submit" class="search_icon">
 									<i class="ion-ios-search-strong"></i>
 								</button>
+								
 							</form>
 						</div>
 						<div class="search_overlay"></div>

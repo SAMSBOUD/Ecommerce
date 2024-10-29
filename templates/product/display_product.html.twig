@@ -3,7 +3,8 @@
         <div class="product_img">
             {# /RecMarket/public/index.php/product/{{product.slug}} #}
             <a href="{{ path('app_product_by_slug',{'slug':product.slug}) }}">
-                <img alt="product_img1" src="assets/images/products/{{ product.imageUrls[0]}}">
+                <img src="{{ product.imageUrls[0] is defined and product.imageUrls[0] is not empty ? asset('assets/images/products/' ~ product.imageUrls[0]): asset('assets/images/ui-icons_444444_256x240.png') }}"
+                alt="{{ product.name}}">{#src="assets/images/products/{{ product.imageUrls[0]}}"#}
             </a>
             <div class="product_action_box">
                 <ul class="list_none pr_action_btn">

@@ -100,19 +100,7 @@ class HomeController extends AbstractController
     ]);
 
     }
-    #[Route('/contact', name: 'app_home_contact')]
-
-    public function contact()
-    {
-        return $this->render('contact/index.html.twig', [
-
-            //'product'=> $product
-
-        ]);
-
-    }
-    
-
+  
 
 
     #[Route('/product/get/{id}', name: 'app_product_by_id')]

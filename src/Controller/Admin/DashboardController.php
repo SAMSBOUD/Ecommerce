@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Controller\Admin\ProductCrudController;
 use App\Entity\Brand;
 use App\Entity\Carrier;
+use App\Entity\Contact;
 use App\Entity\Order;
 use App\Entity\PaymentMethod;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -66,6 +67,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Categories', 'fas fa-tag', Category::class);
         yield MenuItem::linkToCrud('Marques', 'fas fa-tag', Brand::class);
         yield MenuItem::linkToCrud('Users', 'fas fa-users', User::class);
+        yield MenuItem::linkToCrud('Contact', 'fas fa-address-book', Contact::class);
         yield MenuItem::linkToCrud('Carriers', 'fas fa-car', Carrier::class);
         yield MenuItem::linkToCrud('Sliders', 'fas fa-sliders', Sliders::class);
         yield MenuItem::linkToCrud('Pages', 'fas fa-book', Page::class);

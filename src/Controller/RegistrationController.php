@@ -48,21 +48,29 @@ class RegistrationController extends AbstractController
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('samirboudekhan@hotmail.com', 'RecMarket'))
+                    //->from(new Address('reckmarket@outlook.com', 'RecMarket'))
+                    ->from(new Address($this->getParameter('sender_mail'), 'RecMarket'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
-
-            return $this->redirectToRoute('app_home');
+            $this->addFlash('success', 'Un email de confirmation vous a été envoyé. Veuillez vérifier votre boîte de réception et suivre les instructions pour finaliser votre inscription.');
+            return $this->redirectToRoute('app_login');
+            //return $this->redirectToRoute('app_info_email_send',['user'=>$user]);
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
+    #[Route('/info/email/send', name: 'app_info_email_send')]
+    public function infoSendMail(): Response
+    {
+        return $this->render('registration/info_mail_send.html.twig', [
 
+        ]);
+    }
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository): Response
     {
@@ -90,6 +98,6 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_login');
     }
 }

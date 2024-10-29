@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RecMarket {% trans %}Search result{% endtrans %} {% endblock %}
+
+{% block body %}
+    <div  class="main_content">
+        <div  class="section small_pt pb_70">
+            <div  class="container">
+                <div  class="row justify-content-center">
+                    <div  class="col-md-6">
+                        <div  class="heading_s2 text-center">
+                            <h3 >Resultats pour  {{query}} - ({{products|length}})</h3>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+                <div  class="row">
+                    <div  class="col-12">
+                          <div  class="row shop_container">
+                                {% if products|length >0%}
+                                {% for product in products %}
+                                  {% include "product/display_product.html.twig" %}
+                                {% endfor %}
+                                {% else %}
+                                    <p>Aucun résultat n'a été retrouvé</p>
+                                {% endif %}
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+   
+{% endblock %}

@@ -34,7 +34,7 @@
                                             data-animation-delay="1.5s"
                                             target="_blank" {# pour ne pas écraser la page en cours. ouvre un autre onglet  #}
                                             class="btn btn-fill-out rounded-0 staggered-animation text-uppercase animated slideInLeft"
-                                            href="{{ slide.buttonLink }}"
+                                            href="{{path("app_shop_controller")}}"{#{{ slide.buttonLink }}#}
                                             style="animation-delay: 1.5s; opacity: 1;"
                                             >
                                             {{slide.buttonText}}

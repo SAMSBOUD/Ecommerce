@@ -58,9 +58,10 @@
 
 									<div class="product_img">
 										<a href="{{ path('app_product_by_slug',{'slug':product.slug}) }}">
-											<img
-											src="assets/images/products/{{ product.imageUrls[0]}}" alt="{{ product.name }}">
-										{#
+										 <img src="{{ product.imageUrls[0] is defined and product.imageUrls[0] is not empty ? asset('assets/images/products/' ~ product.imageUrls[0]): asset('assets/images/ui-icons_444444_256x240.png') }}"
+                							alt="{{ product.name}}">
+											{#<img src="{{ product.imageUrls[0] is defined and product.imageUrls[0] is not empty ? 'assets/images/products/' ~ product.imageUrls[0] : 'assets/images/ui-icons_444444_256x240.png' }}" alt="{{ product.name }}">
+										
 																														                                            <img src="{{ asset('assets/images/products/2afafc7d0c4488faaeab72e67dd3ba3f145a9c61.jpg') }}" alt="product_img1">
 																														                                            #}
 										</a>
@@ -70,7 +71,7 @@
 													{# <a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a> #}
 													<a class="add-to-cart" href="{{ path('app_cart_add',{'productId':product.id,'count':1}) }}">
 														<i class="icon-basket-loaded"></i>
-														Add To Cart+
+														Add To Cart
 													</a>
 												</li>
 												<li>
@@ -80,7 +81,7 @@
 													{# +22995758543<a href="shop-compare.html" class="popup-ajax"><i class="icon-shuffle"></i></a> #}
 												</li>
 												<li>
-													<a href="shop-quick-view.html" class="popup-ajax">
+													<a href="{{ path('app_product_by_slug',{'slug':product.slug}) }}" target="_blank"> {#class="popup-ajax"#}
 														<i class="icon-magnifier-add"></i>
 													</a>
 												</li>
@@ -102,7 +103,7 @@
 											<del>{{ (product.regularPrice/100) | format_currency('EUR') }}</del>
 											<div class="on_sale">
 												<span>{{((product.regularPrice - product.soldePrice)*100/ product.regularPrice)
-                                                    |number_format(2, ' ', ',') }}% Off</span>
+                                                    |number_format(0,',',',') }}% Off</span>
 											</div>
 										</div>
 										<div class="rating_wrap">
@@ -124,30 +125,29 @@
 											</div>
 										</div>
 										<div class="list_product_action_box">
-											<ul
-												class="list_none pr_action_btn">
+											<ul class="list_none pr_action_btn shop_index_bouton_action d-none">
 												{# <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
 																																				                                                <li><a href="shop-compare.html" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
 																																				                                                <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
 																																				                                                <li><a href="#"><i class="icon-heart"></i></a></li>#}
 												<li class="add-to-cart">
-													<a class="add-to-cart" href="{{ path('app_cart_add',{'productId':product.id,'count':1}) }}">
+													<a href="{{ path('app_cart_add',{'productId':product.id,'count':1}) }}" class="add-to-cart">
 														<i class="icon-basket-loaded"></i>
 														Add To Cart
 													</a>
 												</li>
-												<li class="add-to-compare">
-													<a href="{{ path('app_add_to_compare',{'productId':product.id}) }}">
+												<li>
+													<a href="{{ path('app_add_to_compare',{'productId':product.id}) }}" class="add-to-compare">
 														<i class="icon-shuffle"></i>
 													</a>
 												</li>
 												<li>
-													<a href="shop-quick-view.html" class="popup-ajax">
+													<a href="{{ path('app_product_by_slug',{'slug':product.slug}) }}" target="_blank"> {#class="popup-ajax"#}
 														<i class="icon-magnifier-add"></i>
 													</a>
 												</li>
-												<li class="add-to-wishlist">
-													<a href="{{ path('app_add_to_wishlist',{'productId':product.id}) }}">
+												<li>
+													<a href="{{ path('app_add_to_wishlist',{'productId':product.id}) }}" class="add-to-wishlist">
 														<i class="icon-heart"></i>
 													</a>
 												</li>
@@ -614,7 +614,7 @@
 						<div class="widget">
 							<h5 class="widget_title">Filter</h5>
 							<div class="filter_price">
-								<div id="price_filter" data-min="0" data-max="{{ maxPrice/100 }}" data-min-value="{{ minPrice/100 }}" data-max-value="{{ maxPrice/100 }}" data-price-sign="$ "></div>
+								<div id="price_filter" data-min="0" data-max="{{ maxPrice/100 }}" data-min-value="{{ minPrice/100 }}" data-max-value="{{ maxPrice/100 }}" data-price-sign="€ "></div>
 								<div class="price_range">
 									<span>Price:
 										<span id="flt_price"></span>

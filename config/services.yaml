@@ -6,6 +6,7 @@
 parameters:
     base_url: 'http://localhost/RecMarket/public/'
     app.locales: [fr,en]
+    sender_mail: '%env(SENDER_MAIL)%'
 services:
     # default configuration for services in *this* file
     _defaults:
