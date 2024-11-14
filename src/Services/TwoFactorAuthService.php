@@ -1,7 +1,7 @@
 <?php
- 
+
 namespace App\Services;
- 
+
 use App\Entity\User;
 use App\Entity\CodeValidation;
 use App\Entity\BlocageUser;
@@ -12,16 +12,16 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\RequestStack;
- 
+
 class TwoFactorAuthService
 {
     private $entityManager;
     private $mailer;
     private $requestStack;
     private $params;
- 
+
     public function __construct(
-        EntityManagerInterface $entityManager,
+        EntityManagerInterface $entityManager, 
         MailerInterface $mailer,
         ContainerBagInterface $params,
         RequestStack $requestStack,
@@ -32,7 +32,7 @@ class TwoFactorAuthService
         $this->requestStack = $requestStack;
         $this->params =$params;
     }
- 
+
     public function generateAndSendCode(User $user): void
     {
        
@@ -44,20 +44,20 @@ class TwoFactorAuthService
         $codeValidation->setUser($user);
         $codeValidation->setCode($code);
         $codeValidation->setExpiresAt(new \DateTime('+5 minutes'));
- 
+
         $this->entityManager->persist($codeValidation);
         $this->entityManager->flush();
- 
+
         // Envoyer le code par email
         $email = (new Email())
             ->from($this->params->get('sender_mail'))
             ->to($user->getEmail())
             ->subject('Votre code de vérification')
             ->text("Votre code de vérification est : $code. Il expire dans 5 minutes.");
- 
+
         $this->mailer->send($email);
     }
- 
+
     public function validateCode(User $user, string $code): bool
     {
         $codeValidation = $this->entityManager->getRepository(CodeValidation::class)->findOneBy([
@@ -65,7 +65,7 @@ class TwoFactorAuthService
             //'code' => $code,
            // 'expiresAt' => ['>', (new \DateTime())->format('yyyy-MM-dd HH:mm:ss')]
         ],['id' => 'DESC']);
-           
+            
         if (!$codeValidation) {
            /* if(is_null($codeValidation->getAttempts())){
                 $codeValidation->setAttempts(0);
@@ -101,31 +101,31 @@ class TwoFactorAuthService
             $this->blockUser($user);
             return false;
         }
- 
+
         $this->entityManager->flush();
- 
+
         return true;
     }
- 
+
     private function blockUser(User $user): void
     {
         $request = $this->requestStack->getCurrentRequest();
         $ipAddress = $request ? $request->getClientIp() : 'unknown';
- 
+
         $blocage = new BlocageUser();
         $blocage->setUser($user);
         $blocage->setBlockedUntil(new \DateTime('+1 hour'));
         $blocage->setIpAddress($ipAddress);
- 
+
         $this->entityManager->persist($blocage);
         $this->entityManager->flush();
     }
- 
+
     public function isUserBlocked(User $user): bool
     {
         $request = $this->requestStack->getCurrentRequest();
         $ipAddress = $request ? $request->getClientIp() : 'unknown';
- 
+
         $latestBlocage = $this->entityManager->getRepository(BlocageUser::class)->findOneBy(
             ['user' => $user, 'ipAddress' => $ipAddress],
             ['blockedUntil' => 'DESC']
@@ -134,7 +134,7 @@ class TwoFactorAuthService
         if (!$latestBlocage) {
             return false;
         }
- 
+
         return $latestBlocage->getBlockedUntil() > new \DateTime();
     }
 }

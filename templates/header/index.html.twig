@@ -140,7 +140,7 @@
 
 										<li>
 											{#  /page/{{page.slug}} #}
-											<a class="dropdown-item nav-link nav_item {{ app.request.get('_route') == 'app_page' and app.request.get('slug') == page.slug ? 'active' : '' }}" href="{{ path('app_page', {'slug': page.slug}) }}">{{page.title}}</a>
+											<a class="dropdown-item nav-link nav_item {{ app.request.get('_route') == 'app_page' and app.request.get('slug') == page.slug ? 'active' : '' }}" href="{{ path('app_page', {'slug': page.slug}) }}"> {{ (app.request.locale == "en") ?  page.titleEn :  page.title }}</a>
 										</li>
 									{% endfor %}
 
@@ -155,7 +155,7 @@
 									{% for category in app.session.get('categories') %}
 										<li class="mega-menu-col col-lg-3">
 											<ul>
-												<li class="dropdown-header">{{category.name }}
+												<li class="dropdown-header"> {{ (app.request.locale == "en") ?  category.nameEn :  category.name }}
 												</li>
 												{# Filtrer les produits qui sont soit best_seller soit special_offer #}
 												{% set filtered_products = category.products|filter(product => product.isBestSeller or product.isSpecialOffer) %}
@@ -201,11 +201,11 @@
 										<div class="col-sm-4">
 											<div class="header-banner"><img alt="menu_banner1" src="{{ asset('assets/images/collections/'~colection.imageUrl|url_encode) }}">
 												<div class="banne_info">
-													<h6>{{colection.description}}
+													<h6>{{(app.request.locale == "en") ?  colection.descriptionEn :  colection.description }}
 														Off</h6>
-													<h4>{{colection.title}}</h4>
+													<h4> {{(app.request.locale == "en") ?  colection.titleEn :  colection.title }}</h4>
 													<a href="{{colection.buttonLink}}">
-														{{colection.buttonText}}
+													{{(app.request.locale == "en") ?  colection.buttonTextEn :  colection.buttonText }}
 													</a>
 												</div>
 											</div>

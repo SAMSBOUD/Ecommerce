@@ -65,7 +65,6 @@ class ProductCrudController extends AbstractCrudController
             ->setUploadDir("public/assets/images/products")
             ->setUploadedFileNamePattern('[randomhash].[extension]')
             ->setRequired($pageName === Crud::PAGE_NEW) // When editing a product will not be required. 
-            
             ,
             MoneyField::new('solde_price')->setCurrency("EUR"),
             MoneyField::new('regular_price')->setCurrency("EUR"),

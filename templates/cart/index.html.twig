@@ -48,7 +48,10 @@
 
                             <select name="carrierId" value="{{cart.carrier.id}}" id="carrier" class="form-control">
 
+
                             </select>
+                           
+
 
                         </form>
                     </div>
@@ -77,7 +80,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div><a routerlink="{{ path('app_checkout') }}" class="btn btn-fill-out"
+                        </div><a routerlink="{{ path('app_checkout') }}" class="btn btn-fill-out" ng-reflect-router-link="{{ path('app_checkout') }}"
                             href="{{ path('app_checkout') }}">{%trans%}Proceed To CheckOut{%endtrans%} </a>
                     </div>
                 </div>

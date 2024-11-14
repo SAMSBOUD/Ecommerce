@@ -31,8 +31,11 @@ class SlidersCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('title'),
+            TextField::new('titleEn','Titre en anglais'),
             TextField::new('description'),
+            TextField::new('descriptionEn','Description en anglais'),
             TextField::new('button_text'),
+            TextField::new('buttonTextEn','Texte de bouton en anglais'),
             TextField::new('button_link'),
             ImageField::new('imageUrl')
             ->setBasePath("/assets/images/sliders")

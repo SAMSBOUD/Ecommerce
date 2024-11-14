@@ -37,6 +37,15 @@ class Sliders
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $titleEn = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $descriptionEn = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $buttonTextEn = null;
+
     public function __construct(Type $var = null) {
         $this->setCreatedAt(new \DateTimeImmutable()); 
     }
@@ -126,6 +135,42 @@ class Sliders
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getTitleEn(): ?string
+    {
+        return $this->titleEn;
+    }
+
+    public function setTitleEn(string $titleEn): static
+    {
+        $this->titleEn = $titleEn;
+
+        return $this;
+    }
+
+    public function getDescriptionEn(): ?string
+    {
+        return $this->descriptionEn;
+    }
+
+    public function setDescriptionEn(string $descriptionEn): static
+    {
+        $this->descriptionEn = $descriptionEn;
+
+        return $this;
+    }
+
+    public function getButtonTextEn(): ?string
+    {
+        return $this->buttonTextEn;
+    }
+
+    public function setButtonTextEn(string $buttonTextEn): static
+    {
+        $this->buttonTextEn = $buttonTextEn;
 
         return $this;
     }

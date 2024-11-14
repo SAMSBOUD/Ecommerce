@@ -57,7 +57,7 @@
                     <del>{{ (product.regularPrice/100) | format_currency('EUR') }}</del>
                     <div class="on_sale">
                                                 <span>{{((product.regularPrice - product.soldePrice)*100/ product.regularPrice)
-                                                    |number_format(2, ' ', ',') }}% Off</span>
+                                                    |number_format(2, '', ',') }}% Off</span>
                     </div>
                 </div>
                 <div class="rating_wrap">

@@ -42,7 +42,9 @@
  
                                     <li ><a  
                                             
-                                            href=" /page/{{page.slug}}">{{page.title}}</a>
+                                            href="{{ path('app_page', {'slug': page.slug}) }}">
+                                            {{ (app.request.locale == "en") ?  page.titleEn :  page.title }}
+                                            </a>
                                     </li>
                                     {% endfor %}
                             {# <li ><a 
@@ -59,11 +61,17 @@
                 <div  class="col-lg-2 col-md-3 col-sm-6">
                     <div  class="widget">
                         <h6  class="widget_title">{% trans %}Category{% endtrans %}</h6>
+                       {# {{dump(app.request.locale) }}#}
                         <ul  class="widget_links">
                             {% for category in app.session.get('categories') %}
+                            
                                 <li ><a href="{{ path('app_shop_controller', {'pk': category.id}) }}" class="{{ app.request.get('_route') == 'app_shop_controller' and app.request.get('pk') == category.id ? 'active' : '' }}"
-										>{{category.name }}</a></li>
-                            {%endfor%}
+										>
+                                        {{ (app.request.locale == "en") ?  category.nameEn :  category.name }}
+                                       
+                                       {# {{category.name|trans }}#}
+                                       </a></li>
+                            {% endfor %}
                             {#<li ><a  href="#">{% trans %}Woman{% endtrans %}</a></li>
                             <li ><a  href="#">{% trans %}Kids{% endtrans %}</a></li>
                             <li ><a  href="#">{% trans %}Best Saller{% endtrans %}</a>
@@ -73,7 +81,7 @@
                         </ul>
                     </div>
                 </div>
-                <div  class="col-lg-2 col-md-6 col-sm-6">
+                {#<div  class="col-lg-2 col-md-6 col-sm-6">
                     <div  class="widget">
                         <h6  class="widget_title">{% trans %}My Account{% endtrans %}</h6>
                         <ul  class="widget_links">
@@ -87,7 +95,7 @@
                                     ng-reflect-router-link="signup" href="/signup">{% trans %}Signup{% endtrans %}</a></li>
                         </ul>
                     </div>
-                </div>
+                </div>#}
                 <div  class="col-lg-3 col-md-4 col-sm-6">
                     <div  class="widget">
                         <h6  class="widget_title">{% trans %}Contact Info{% endtrans %}</h6>

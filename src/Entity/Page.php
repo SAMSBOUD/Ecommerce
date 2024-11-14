@@ -36,6 +36,12 @@ class Page
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $titleEn = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $contentEn = null;
+
     public function __construct(Type $var = null){
         $this->setCreatedAt(new \DateTimeImmutable());
     }
@@ -125,6 +131,30 @@ class Page
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getTitleEn(): ?string
+    {
+        return $this->titleEn;
+    }
+
+    public function setTitleEn(string $titleEn): static
+    {
+        $this->titleEn = $titleEn;
+
+        return $this;
+    }
+
+    public function getContentEn(): ?string
+    {
+        return $this->contentEn;
+    }
+
+    public function setContentEn(string $contentEn): static
+    {
+        $this->contentEn = $contentEn;
 
         return $this;
     }

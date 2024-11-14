@@ -249,6 +249,50 @@
         <source>Add To Cart</source>
         <target>Add To Cart</target>
       </trans-unit>
+      <trans-unit id="MjksBuD" resname="Search result">
+        <source>Search result</source>
+        <target>Search result</target>
+      </trans-unit>
+      <trans-unit id="z8lRRc5" resname="Exclusive Products">
+        <source>Exclusive Products</source>
+        <target>Exclusive Products</target>
+      </trans-unit>
+      <trans-unit id="hKiWsCP" resname="New Arrival">
+        <source>New Arrival</source>
+        <target>New Arrival</target>
+      </trans-unit>
+      <trans-unit id="9LJb8XP" resname="Best Sellers">
+        <source>Best Sellers</source>
+        <target>Best Sellers</target>
+      </trans-unit>
+      <trans-unit id="xTPK_ra" resname="Featured">
+        <source>Featured</source>
+        <target>Featured</target>
+      </trans-unit>
+      <trans-unit id="sHSdqdB" resname="Special Offer">
+        <source>Special Offer</source>
+        <target>Special Offer</target>
+      </trans-unit>
+      <trans-unit id="GP3VSbL" resname="New">
+        <source>New</source>
+        <target>New</target>
+      </trans-unit>
+      <trans-unit id="DsU4lNA" resname="Hot">
+        <source>Hot</source>
+        <target>Hot</target>
+      </trans-unit>
+      <trans-unit id="PyUAuC2" resname="Sale">
+        <source>Sale</source>
+        <target>Sale</target>
+      </trans-unit>
+      <trans-unit id="uLHYlMa" resname="Categories">
+        <source>Categories</source>
+        <target>Categories</target>
+      </trans-unit>
+      <trans-unit id="Y44kn0o" resname="Filter">
+        <source>Filter</source>
+        <target>Filter</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

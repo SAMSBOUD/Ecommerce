@@ -249,6 +249,50 @@
         <source>Add To Cart</source>
         <target>Ajouter au panier</target>
       </trans-unit>
+      <trans-unit id="z8lRRc5" resname="Exclusive Products">
+        <source>Exclusive Products</source>
+        <target>Produits exclusifs</target>
+      </trans-unit>
+      <trans-unit id="hKiWsCP" resname="New Arrival">
+        <source>New Arrival</source>
+        <target>Nouvel arrivage</target>
+      </trans-unit>
+      <trans-unit id="9LJb8XP" resname="Best Sellers">
+        <source>Best Sellers</source>
+        <target>Meilleures ventes</target>
+      </trans-unit>
+      <trans-unit id="xTPK_ra" resname="Featured">
+        <source>Featured</source>
+        <target>A la une</target>
+      </trans-unit>
+      <trans-unit id="sHSdqdB" resname="Special Offer">
+        <source>Special Offer</source>
+        <target>Offre spéciale</target>
+      </trans-unit>
+      <trans-unit id="MjksBuD" resname="Search result">
+        <source>Search result</source>
+        <target>Résultat de la recherche</target>
+      </trans-unit>
+      <trans-unit id="GP3VSbL" resname="New">
+        <source>New</source>
+        <target>Nouveau</target>
+      </trans-unit>
+      <trans-unit id="DsU4lNA" resname="Hot">
+        <source>Hot</source>
+        <target>Chaud</target>
+      </trans-unit>
+      <trans-unit id="PyUAuC2" resname="Sale">
+        <source>Sale</source>
+        <target>Vente</target>
+      </trans-unit>
+      <trans-unit id="uLHYlMa" resname="Categories">
+        <source>Categories</source>
+        <target>Catégories</target>
+      </trans-unit>
+      <trans-unit id="Y44kn0o" resname="Filter">
+        <source>Filter</source>
+        <target>Filtre</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

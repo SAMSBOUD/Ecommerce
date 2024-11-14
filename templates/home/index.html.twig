@@ -22,13 +22,13 @@
                                             data-animation-delay="0.5s"
                                             class="mb-3 staggered-animation font-weight-light animated slideInLeft"
                                             style="animation-delay: 0.5s; opacity: 1;">
-                                            {{slide.description}}
+                                            {{(app.request.locale == "en") ?  slide.descriptionEn :  slide.description }}
                                             </h5>
                                         <h2  data-animation="slideInLeft"
                                             data-animation-delay="1s" class="staggered-animation animated slideInLeft"
                                             style="animation-delay: 1s; opacity: 1;"
                                             >     
-                                             {{slide.title}}
+                                             {{(app.request.locale == "en") ?  slide.titleEn :  slide.title}}
                                              </h2><a
                                              data-animation="slideInLeft"
                                             data-animation-delay="1.5s"
@@ -37,7 +37,7 @@
                                             href="{{path("app_shop_controller")}}"{#{{ slide.buttonLink }}#}
                                             style="animation-delay: 1.5s; opacity: 1;"
                                             >
-                                            {{slide.buttonText}}
+                                            {{(app.request.locale == "en") ?  slide.buttonTextEn : slide.buttonText}}
                                             </a>
                                     </div>
                                 </div>
@@ -64,11 +64,17 @@
                                 alt="shop_banner_img1"
                                 src="{{ asset('assets/images/collections/'~collection.imageUrl|url_encode)}}">
                             <div  class="single_banner_info">
-                                <h5  class="single_bn_title1">{{collection.description}}</h5>
-                                <h3  class="single_bn_title">{{collection.title}}</h3><a
+                                <h5  class="single_bn_title1">
+                                {{(app.request.locale == "en") ?  collection.descriptionEn :  collection.description }}
+                                </h5>
+                                <h3  class="single_bn_title">
+                                {{(app.request.locale == "en") ?  collection.titleEn :  collection.title }}
+                                </h3><a
                                      class="single_bn_link"
                                      target="_blank"
-                                    href="{{collection.buttonLink}}">{{collection.buttonText}}</a>
+                                    href="{{collection.buttonLink}}">
+                                     {{(app.request.locale == "en") ?  collection.buttonTextEn :  collection.buttonText }}
+                                    </a>
                             </div>
                         </div>
                     </div>
@@ -82,7 +88,7 @@
                 <div  class="row justify-content-center">
                     <div  class="col-md-6">
                         <div  class="heading_s1 text-center">
-                            <h2 >Exclusive Products</h2>
+                            <h2 >{% trans %}Exclusive Products{% endtrans %}</h2>
                         </div>
                     </div>
                 </div>
@@ -92,19 +98,26 @@
                             <ul  role="tablist" class="nav nav-tabs justify-content-center">
                                 <li  class="nav-item"><a 
                                         id="arrival-tab" data-bs-toggle="tab" href="#arrival" role="tab"
-                                        aria-controls="arrival" aria-selected="true" class="nav-link active">New
-                                        Arrival</a></li>
+                                        aria-controls="arrival" aria-selected="true" class="nav-link active">
+                                        {% trans %}New Arrival{% endtrans %}
+                                        </a></li>
                                 <li  class="nav-item"><a 
                                         id="sellers-tab" data-bs-toggle="tab" href="#sellers" role="tab"
-                                        aria-controls="sellers" aria-selected="false" class="nav-link">Best Sellers</a>
+                                        aria-controls="sellers" aria-selected="false" class="nav-link">
+                                        {% trans %}Best Sellers{% endtrans %}
+                                        </a>
                                 </li>
                                 <li  class="nav-item"><a 
                                         id="featured-tab" data-bs-toggle="tab" href="#featured" role="tab"
-                                        aria-controls="featured" aria-selected="false" class="nav-link">Featured</a>
+                                        aria-controls="featured" aria-selected="false" class="nav-link">
+                                        {% trans %}Featured{% endtrans %}
+                                        </a>
                                 </li>
                                 <li  class="nav-item"><a 
                                         id="special-tab" data-bs-toggle="tab" href="#special" role="tab"
-                                        aria-controls="special" aria-selected="false" class="nav-link">Special Offer
+                                        aria-controls="special" aria-selected="false" class="nav-link">
+                                        {% trans %}Special Offer{% endtrans %}
+                                        
                                     </a></li>
                             </ul>
                         </div>

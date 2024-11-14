@@ -68,7 +68,11 @@ class SecurityController extends AbstractController
                 //'code' => $code,
                // 'expiresAt' => ['>', (new \DateTime())->format('yyyy-MM-dd HH:mm:ss')]
             ],['id' => 'DESC']);
-            if($codeValidation && $codeValidation->getExpiresAt()< new \DateTime()){
+            //$difference = ;
+            //dd($codeValidation,$difference->format('%i'));
+            //'+5 minutes'
+            
+            if($codeValidation && intval(($codeValidation->getExpiresAt()->diff(new \DateTime()))->format('%i')>=5)){
                 $twoFactorAuthService->generateAndSendCode($user);
             }else{
                 $twoFactorAuthService->generateAndSendCode($user);

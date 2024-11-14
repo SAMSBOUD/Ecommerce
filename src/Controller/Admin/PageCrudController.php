@@ -34,10 +34,12 @@ class PageCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('title'),
+            TextField::new('titleEn',"Titre en anglais"),
             SlugField::new('slug')->setTargetFieldName('title')->hideOnIndex(),
             BooleanField::new('isHead'),
             BooleanField::new('isFoot'),
             TextEditorField::new('content'),
+            TextEditorField::new('contentEn',"Contenus en anglais"),
         ];
     }
     

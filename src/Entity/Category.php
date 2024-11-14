@@ -7,6 +7,7 @@ use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CategoryRepository;
+use App\Services\TranslationService;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -45,8 +46,15 @@ class Category
     #[ORM\OneToMany(mappedBy: 'fkCategory', targetEntity: Brand::class)]
     private Collection $brands;
 
-    public function __construct()
+    private TranslationService $translationService;
+    private array $translatedDescription;
+
+    #[ORM\Column(length: 255)]
+    private ?string $name_en = null;
+
+    public function __construct(TranslationService $translationService)
     {
+        $this->translationService = $translationService;
         $this->products = new ArrayCollection();
         $this->setCreatedAt(new \DateTimeImmutable());
         $this->brands = new ArrayCollection();
@@ -203,6 +211,36 @@ class Category
                 $brand->setFkCategory(null);
             }
         }
+
+        return $this;
+    }
+    public function setTranslateDescription(): static
+    {
+        $this->translatedDescription = $this->translationService->translate($this->name);
+        return $this;
+    }
+    public function getTranslatedDescription(): array
+    {
+        return $this->translatedDescription;
+    }
+
+    
+    public function translate(): void
+    {
+        $this->translatedDescription =  $this->translationService->translate($this->name);
+
+       // dd($result);
+        //return $result;
+    }
+
+    public function getNameEn(): ?string
+    {
+        return $this->name_en;
+    }
+
+    public function setNameEn(string $name_en): static
+    {
+        $this->name_en = $name_en;
 
         return $this;
     }

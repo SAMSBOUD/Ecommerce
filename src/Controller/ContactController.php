@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Repository\ContactRepository;
+use App\Services\TranslationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,11 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class ContactController extends AbstractController
 {
+    private TranslationService $translationService;
+    public function __construct(TranslationService $translationService)
+    {
+        $this->translationService = $translationService;
+    }
     #[Route('/contact', name: 'app_home_contact')]
     public function index(): Response
     {
@@ -75,6 +81,15 @@ class ContactController extends AbstractController
        /* return $this->json([
             'message' => 'Votre message a bien été envoyé. Merci pour votre contact.',
         ], Response::HTTP_OK);*/
+    }
+    #[Route('/update/element', name: 'app_update_element')]
+    public function updateElement(): Response
+    {
+
+        $response =  $this->translationService->translate("Ordinateurs Portables");
+        dd($response);
+        return new Response();
+        
     }
 }
 

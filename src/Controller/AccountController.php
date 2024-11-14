@@ -1,6 +1,6 @@
 <?php
 namespace App\Controller;
- 
+
 use App\Entity\Address;
 use App\Entity\CodeValidation;
 use App\Repository\AddressRepository;
@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
- 
+
 class AccountController extends AbstractController
 {
     #[Route('/account', name: 'app_account')]
@@ -30,3 +30,4 @@ class AccountController extends AbstractController
         ]);
     }
 }
+

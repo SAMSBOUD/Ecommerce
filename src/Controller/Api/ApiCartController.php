@@ -21,7 +21,7 @@ class ApiCartController extends AbstractController
         if(!$carrier){
             return $this->json([
                 "isSuccess" => false,
-                "message" => "Carrier not found !",
+                "message" => "Carrier not fount !",
             ]);
         }
         $cartService->update("carrier", [

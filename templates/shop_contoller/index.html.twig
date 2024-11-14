@@ -71,7 +71,7 @@
 													{# <a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a> #}
 													<a class="add-to-cart" href="{{ path('app_cart_add',{'productId':product.id,'count':1}) }}">
 														<i class="icon-basket-loaded"></i>
-														Add To Cart
+														{% trans %}Add To Cart{% endtrans %}
 													</a>
 												</li>
 												<li>
@@ -103,7 +103,7 @@
 											<del>{{ (product.regularPrice/100) | format_currency('EUR') }}</del>
 											<div class="on_sale">
 												<span>{{((product.regularPrice - product.soldePrice)*100/ product.regularPrice)
-                                                    |number_format(0,',',',') }}% Off</span>
+                                                    |number_format(2, '.', ',') }}% Off</span>
 											</div>
 										</div>
 										<div class="rating_wrap">
@@ -133,7 +133,8 @@
 												<li class="add-to-cart">
 													<a href="{{ path('app_cart_add',{'productId':product.id,'count':1}) }}" class="add-to-cart">
 														<i class="icon-basket-loaded"></i>
-														Add To Cart
+														{% trans %}Add To Cart{% endtrans %}
+														
 													</a>
 												</li>
 												<li>
@@ -592,13 +593,13 @@
 				<div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0">
 					<div class="sidebar">
 						<div class="widget">
-							<h5 class="widget_title">Categories</h5>
+							<h5 class="widget_title">{% trans %}Categories{% endtrans %}</h5>
 							<ul class="widget_categories">
 								{% for categorie in categories %}
 									<li>
 										<a href="#" class="category-item" data-category-id="{{ categorie.id }}">
 											<span class="categories_name" data-id="{{ categorie.id }}">
-											{{ categorie.name }}</span>
+											{{ (app.request.locale == "en") ?  categorie.nameEn :  categorie.name }}</span>
 											<span class="categories_num">({{ categorie.products|length }})</span>
 										</a>
 									</li>
@@ -612,7 +613,7 @@
 							</ul>
 						</div>
 						<div class="widget">
-							<h5 class="widget_title">Filter</h5>
+							<h5 class="widget_title">{% trans %}Filter{% endtrans %}</h5>
 							<div class="filter_price">
 								<div id="price_filter" data-min="0" data-max="{{ maxPrice/100 }}" data-min-value="{{ minPrice/100 }}" data-max-value="{{ maxPrice/100 }}" data-price-sign="€ "></div>
 								<div class="price_range">
@@ -629,7 +630,7 @@
 							<ul class="list_brand">
 								{% set break = false %}
 								{% for categorie in categories %}
-									{% set hasProducts = false %}<p class="text-muted">{{ categorie.name }}</p>
+									{% set hasProducts = false %}<p class="text-muted">{{ (app.request.locale == "en") ?  categorie.nameEn :  categorie.name }}</p>
 									{% for brand in categorie.brands %}
 										{% if brand.products|length > 0 %}
 											{#{% set hasProducts = true %}

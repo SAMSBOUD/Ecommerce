@@ -38,6 +38,15 @@ class Colection
     #[ORM\Column(nullable: true)]
     private ?bool $isMega = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $titleEn = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $descriptionEn = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $buttonTextEn = null;
+
     public function __construct(Type $var = null){
         $this->setCreatedAt(new \DateTimeImmutable());
     }
@@ -139,6 +148,42 @@ class Colection
     public function setIsMega(?bool $isMega): static
     {
         $this->isMega = $isMega;
+
+        return $this;
+    }
+
+    public function getTitleEn(): ?string
+    {
+        return $this->titleEn;
+    }
+
+    public function setTitleEn(string $titleEn): static
+    {
+        $this->titleEn = $titleEn;
+
+        return $this;
+    }
+
+    public function getDescriptionEn(): ?string
+    {
+        return $this->descriptionEn;
+    }
+
+    public function setDescriptionEn(string $descriptionEn): static
+    {
+        $this->descriptionEn = $descriptionEn;
+
+        return $this;
+    }
+
+    public function getButtonTextEn(): ?string
+    {
+        return $this->buttonTextEn;
+    }
+
+    public function setButtonTextEn(string $buttonTextEn): static
+    {
+        $this->buttonTextEn = $buttonTextEn;
 
         return $this;
     }

@@ -36,6 +36,7 @@ class CategoryCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideonForm(),
             TextField::new('name'),
+            TextField::new('name_en', 'Nom en anglais'),
             SlugField::new('slug')->setTargetFieldName('name'),
             TextEditorField::new('description'),
             BooleanField::new('isMega'),
