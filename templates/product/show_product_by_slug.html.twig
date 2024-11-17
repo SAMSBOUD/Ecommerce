@@ -50,16 +50,16 @@
                                 <div class="on_sale"><span>{{((product.regularPrice - product.soldePrice)*100/
                                         product.regularPrice)  |format_currency('EUR')   }}% Off</span></div>
                             </div>
-                            <div class="rating_wrap">
+                            <div class="rating_wrap d-none">
                                 <div class="rating">
                                     <div class="product_rate" style="width: 80%;">
                                     </div>
                                 </div><span class="rating_num">(21)</span>
                             </div>
                             <div class="pr_desc">
-                                <p>{{ product.description}} </p>
+                               {#<p>{{ product.description}} </p>#} 
                             </div>
-                            <div class="product_sort_info">
+                            <div class="product_sort_info d-none">
                                 <ul>
                                     <li><i class="linearicons-shield-check"></i> 1 Year AL Jazeera Brand Warranty
                                     </li>
@@ -79,6 +79,11 @@
                                 </div>
                             </div> -->
                         </div>
+                        <div style="clear: both;"></div>
+                         <div class="pr_desc">
+                                <p>{{ (app.request.locale == "en") ?  product.descriptionEn :  product.description }}
+                                </p>
+                            </div>
                         <hr>
                         <div class="cart_extra">
                             <div class="cart-product-quantity">
@@ -106,7 +111,7 @@
                         <hr><!--bindings={
   "ng-reflect-ng-if": "false"
 }-->
-                        <ul class="product-meta">
+                        <ul class="product-meta d-none">
                             <li>SKU: <a href="#">BE45VGRT</a></li>
                             <li>Category: <a href="#">Culotes </a></li>
                             <li>Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">printed</a></li>
@@ -135,23 +140,26 @@
                         <ul role="tablist" class="nav nav-tabs">
                             <li class="nav-item"><a id="Description-tab" data-bs-toggle="tab" href="#Description"
                                     role="tab" aria-controls="Description" aria-selected="true"
-                                    class="nav-link active">Description</a></li>
+                                    class="nav-link active"> {% trans %}More description{% endtrans %}</a></li>
                             <li class="nav-item"><a id="Additional-info-tab" data-bs-toggle="tab"
                                     href="#Additional-info" role="tab" aria-controls="Additional-info"
-                                    aria-selected="false" class="nav-link">Additional info</a></li>
-                            <li class="nav-item"><a id="Reviews-tab" data-bs-toggle="tab" href="#Reviews" role="tab"
+                                    aria-selected="false" class="nav-link">{% trans %}Additional info{% endtrans %}</a></li>
+                           {# <li class="nav-item"><a id="Reviews-tab" data-bs-toggle="tab" href="#Reviews" role="tab"
                                     aria-controls="Reviews" aria-selected="false" class="nav-link">Reviews (2)</a>
-                            </li>
+                            </li>#}
                         </ul>
                         <div class="tab-content shop_info_tab">
                             <div id="Description" role="tabpanel" aria-labelledby="Description-tab"
                                 class="tab-pane fade show active">
-                                {{ product.description|raw }}
+                               
+                                {{ (app.request.locale == "en") ?  product.moreDescriptionEn|raw :  product.moreDescription|raw }}
+                               {# {{ product.description|raw }}#}
                             </div>
                             <div id="Additional-info" role="tabpanel" aria-labelledby="Additional-info-tab"
                                 class="tab-pane fade">
                                 <!-- {{ product.moreDescription|raw }} -->
-                                {{ product.additionalInfos|raw }}
+                                {#{{ product.additionalInfos|raw }}#}
+                                {{ (app.request.locale == "en") ?  product.additionalInfosEn|raw :  product.additionalInfos|raw }}
                             </div>
                             <div id="Reviews" role="tabpanel" aria-labelledby="Reviews-tab" class="tab-pane fade">
                                 <!-- <div class="comments">

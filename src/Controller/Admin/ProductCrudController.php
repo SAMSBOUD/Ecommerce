@@ -45,10 +45,13 @@ class ProductCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('name'),
-            TextField::new('description'),
+            TextField::new('description','description en francais'),
+            TextField::new('descriptionEn','Description en anglais'),
             SlugField::new('slug')->setTargetFieldName('name'),
-            TextEditorField::new('more_description')->hideOnIndex(),
-            TextEditorField::new('additional_infos')->hideOnIndex(),
+            TextEditorField::new('more_description',"Plus de description (français)")->hideOnIndex(),
+            TextEditorField::new('moreDescriptionEn',"Plus de description (anglais)")->hideOnIndex(),
+            TextEditorField::new('additional_infos','Informations complémentaires (Français)')->hideOnIndex(),
+            TextEditorField::new('additionalInfosEn','Informations complémentaires (Anglais)')->hideOnIndex(),
             AssociationField::new('relatedProducts')->hideOnIndex(),
             /*AssociationField::new('fkCategory'),*/
             ImageField::new('imageUrls')

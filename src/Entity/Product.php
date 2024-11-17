@@ -44,7 +44,7 @@ class Product
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
     private Collection $categories;
 
-    #[ORM\Column(type: Types::ARRAY )]
+    #[ORM\Column(type: Types::ARRAY)]
     private array $imageUrls = [];
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -76,6 +76,15 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Brand $fkBrand = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $descriptionEn = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $moreDescriptionEn = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $additionalInfosEn = null;
 
     public function __construct()
     {
@@ -347,6 +356,42 @@ class Product
     public function setFkBrand(?Brand $fkBrand): static
     {
         $this->fkBrand = $fkBrand;
+
+        return $this;
+    }
+
+    public function getDescriptionEn(): ?string
+    {
+        return $this->descriptionEn;
+    }
+
+    public function setDescriptionEn(string $descriptionEn): static
+    {
+        $this->descriptionEn = $descriptionEn;
+
+        return $this;
+    }
+
+    public function getMoreDescriptionEn(): ?string
+    {
+        return $this->moreDescriptionEn;
+    }
+
+    public function setMoreDescriptionEn(string $moreDescriptionEn): static
+    {
+        $this->moreDescriptionEn = $moreDescriptionEn;
+
+        return $this;
+    }
+
+    public function getAdditionalInfosEn(): ?string
+    {
+        return $this->additionalInfosEn;
+    }
+
+    public function setAdditionalInfosEn(string $additionalInfosEn): static
+    {
+        $this->additionalInfosEn = $additionalInfosEn;
 
         return $this;
     }
